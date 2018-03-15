@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">FitMe_Group9</string>
+    <string name="title">FitMe</string>
+    <string name="copyright">Group 9 Project - Software Engineering</string>
+    <string name="weightText">Current Weight: </string>
+    <string name="calorieText">Recommended Calories: </string>
+    <string name="distanceText">Distance Travelled: </string>
+    <string name="distance">Distance: </string>
+    <string name="speed">Speed: </string>
+    <string name="points">Points:</string>
+    <string name="titleCalories">Calories</string>
+    <string name="titleBreakfast">Breakfast: </string>
+    <string name="titleLunch">Lunch: </string>
+    <string name="titleDinner">Dinner: </string>
+    <string name="titleSnacks">Snacks: </string>
+    <string name="titleWeight">Weight </string>
+    <string name="titleGoals">Goals: </string>
+    <string name="titleActivity">Activity</string>
+    <string name="titleGlobal">Global Scores</string>
+    <string name="titleCalories2">Calories:</string>
+</resources>
