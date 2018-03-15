@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">FitMe_Group9</string>
-    <string name="title">FitMe</string>
+    <string name="title">FitMe!</string>
     <string name="copyright">Group 9 Project - Software Engineering</string>
     <string name="weightText">Current Weight: </string>
     <string name="calorieText">Recommended Calories: </string>
