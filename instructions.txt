@@ -1,0 +1,30 @@
+Install git, create a folder where you want to put the project, right click to open git bash.
+
+To download the current project:
+git clone https://github.com/stratiev97/com2027_project.git
+
+To see the changes you haven't commited:
+git status
+
+To sync your local files with the github project:
+git add .
+git commit -m "Provide a message"
+git push
+
+To get new updates from github:
+git pull
+
+To see which branch you are currently working on:
+git branch 
+
+Copy master branch and create a new branch:
+git branch nameOfYourBranch
+git checkout nameOfYourBranch
+
+Make changes to the branch you are working on, then switch to master with git checkout master and
+git pull any changes that were made by others. Switch back to your branch and use:
+git merge master
+git push
+
+To delete a branch:
+git branch -d nameOfYourBranch
