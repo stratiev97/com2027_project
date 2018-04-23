@@ -2,11 +2,18 @@ package com2027.group9_cw.sk00806.fitme_group9;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class mainScreen extends AppCompatActivity {
@@ -15,6 +22,9 @@ public class mainScreen extends AppCompatActivity {
     ImageButton weightButton;
     ImageButton activityButton;
     ImageButton globalButton;
+    ArrayList<CalorieDay> calorieData;
+
+    final int CALORIE_CODE = 1;
 
 
     @Override
@@ -33,6 +43,18 @@ public class mainScreen extends AppCompatActivity {
         globalButton = (ImageButton) findViewById(R.id.global_button);
 
 
+        if(savedInstanceState!=null) {
+            if (savedInstanceState.containsKey("CalorieData")) {
+                this.calorieData = savedInstanceState.getParcelableArrayList("CalorieData");
+            }else{
+            }
+        }
+        if(this.calorieData==null){
+            this.calorieData = new ArrayList<CalorieDay>();
+
+        }
+        System.out.println("uuh" + calorieData.size());
+
         /** Calories, Weight and Activity Button Change of Image when touched */
         // Calories Button Listener
         caloriesButton.setOnTouchListener(new View.OnTouchListener() {
@@ -44,7 +66,21 @@ public class mainScreen extends AppCompatActivity {
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP){        // If Calories button is released
                     caloriesButton.setImageResource(R.drawable.calories);           // Image Resource is set to 'calories'
-                    startActivity(new Intent(mainScreen.this, calorieScreen.class)); //Calories Activity Starts
+                    Intent calorieIntent = new Intent(mainScreen.this, calorieScreen.class);
+                    for(CalorieDay calDay: calorieData){
+                        System.out.println(calDay.getDate());
+                        System.out.println(new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()));
+                        System.out.println(calDay.getDate().equals(new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime())));
+
+                        if(calDay.getDate().equals(new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()))){
+                            calorieIntent.putExtra("CalorieDay", calDay);
+                        }
+
+                    }
+                    System.out.println("hi2");
+                    System.out.println(calorieData.size());
+
+                    startActivityForResult(calorieIntent, CALORIE_CODE);
                     return true;
                 }
                 return false;
@@ -101,5 +137,41 @@ public class mainScreen extends AppCompatActivity {
                 return false;
             }
         });
+
     };
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+
+        outState.putParcelableArrayList("CalorieData", this.calorieData);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==CALORIE_CODE){
+            if(resultCode==RESULT_OK){
+                System.out.println("ohio");
+                CalorieDay calDay = data.getParcelableExtra("CalorieDay");
+                System.out.println(calDay.getDate());
+                Boolean set = false;
+                for(int i=0; i<calorieData.size(); i++){
+                    if(calorieData.get(i).getDate().equals(calDay.getDate())){
+                        calorieData.set(i,calDay);
+                        set = true;
+                    }
+                }
+                if(!set){
+                    System.out.println("ohio2");
+
+                    calorieData.add(calDay);
+                }
+                System.out.println(calDay.getBreakfast_goal());
+
+                System.out.println(calorieData.size());
+            }
+        }
+
+    }
 }

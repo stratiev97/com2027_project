@@ -18,6 +18,7 @@
         android:textColor="@color/colorWhite"
         android:textSize="45sp"
         android:layout_gravity="center"
+        android:id="@+id/calorieScreen_title"
         />
 
     <!-- Goal title -->
@@ -29,6 +30,8 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_gravity="left"
+
+        android:id="@+id/calorieScreen_dailyGoalLabel"
         />
 
     <!-- Add Progress Bar Code Here -->
@@ -36,7 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="15dp"
-        style="@android:style/Widget.ProgressBar.Horizontal"/>
+        android:id="@+id/calorieScreen_progressBar"
+        style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+        />
 
     <!-- Summary title -->
     <TextView
@@ -45,6 +50,7 @@
         android:text="@string/titleCalorieSummary"
         android:textColor="@color/colorWhite"
         android:textSize="25sp"
+        android:id="@+id/calorieScreen_soFarTodayLabel"
         android:textStyle="bold"
         android:layout_gravity="left"
         />
@@ -57,6 +63,7 @@
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         android:layout_gravity="left"
+        android:id="@+id/calorieScreen_breakfastLabel"
         />
 
     <!-- Add List Code Here -->
@@ -74,6 +81,7 @@
             android:textSize="17sp"
             android:layout_weight="5"
             android:textStyle="italic"
+            android:id="@+id/calorieScreen_breakfastGoalLabel"
             android:text="Goal:"/>
 
         <TextView
@@ -83,12 +91,23 @@
             android:textStyle="italic"
             android:textSize="17sp"
             android:layout_weight="5"
+            android:id="@+id/calorieScreen_breakfastCurrentLabel"
+
             android:text="Current:"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
+            android:id="@+id/calorieScreen_breakfastResetButton"
+            android:layout_weight="1"
+            android:text="Reset"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:id="@+id/calorieScreen_breakfastAddButton"
             android:layout_weight="1"
             android:text="Add Entry"/>
     </LinearLayout>
@@ -100,6 +119,7 @@
         android:text="@string/titleLunch"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
+        android:id="@+id/calorieScreen_lunchLabel"
         android:layout_gravity="left"
         />
 
@@ -116,6 +136,7 @@
             android:textColor="@color/colorWhite"
             android:textSize="17sp"
             android:layout_weight="5"
+            android:id="@+id/calorieScreen_lunchGoalLabel"
             android:textStyle="italic"
             android:text="Goal:"/>
 
@@ -123,6 +144,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
+            android:id="@+id/calorieScreen_lunchCurrentLabel"
+
             android:textStyle="italic"
             android:layout_weight="5"
             android:textSize="17sp"
@@ -132,6 +155,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
+            android:id="@+id/calorieScreen_lunchResetButton"
+
+            android:layout_weight="1"
+            android:text="Reset"/>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:id="@+id/calorieScreen_lunchAddButton"
+
             android:layout_weight="1"
             android:text="Add Entry"/>
     </LinearLayout>
@@ -143,6 +178,8 @@
         android:text="@string/titleDinner"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
+        android:id="@+id/calorieScreen_dinnerLabel"
+
         android:layout_gravity="left"
         />
 
@@ -160,6 +197,8 @@
             android:textColor="@color/colorWhite"
             android:textSize="17sp"
             android:textStyle="italic"
+            android:id="@+id/calorieScreen_dinnerGoalLabel"
+
             android:layout_weight="5"
             android:text="Goal:"/>
 
@@ -167,6 +206,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
+            android:id="@+id/calorieScreen_dinnerCurrentLabel"
+
             android:layout_weight="5"
             android:textStyle="italic"
             android:textSize="17sp"
@@ -176,6 +217,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
+            android:id="@+id/calorieScreen_dinnerResetButton"
+
+            android:layout_weight="1"
+            android:text="Reset"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:id="@+id/calorieScreen_dinnerAddButton"
+
             android:layout_weight="1"
             android:text="Add Entry"/>
     </LinearLayout>
@@ -185,6 +237,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/titleSnacks"
+        android:id="@+id/calorieScreen_snackLabel"
+
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         android:layout_gravity="left"
@@ -203,6 +257,8 @@
             android:textColor="@color/colorWhite"
             android:textSize="17sp"
             android:layout_weight="5"
+            android:id="@+id/calorieScreen_snackGoalLabel"
+
             android:textStyle="italic"
             android:text="Goal:"/>
 
@@ -213,20 +269,38 @@
             android:textStyle="italic"
             android:layout_weight="5"
             android:textSize="17sp"
+            android:id="@+id/calorieScreen_snackCurrentLabel"
+
             android:text="Current:"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:layout_weight="1"
-            android:text="Add Entry"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:layout_weight="1"
+                android:id="@+id/calorieScreen_snackResetButton"
+
+                android:text="Reset"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:layout_weight="1"
+                android:id="@+id/calorieScreen_snackAddButton"
+
+                android:text="Add Entry"/>
+
+
     </LinearLayout>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
-        android:text="Calculate Today's Goal"/>
+        android:id="@+id/calorieScreen_calorieGoalButton"
+
+        android:text="Change Daily Calorie Goals"/>
 
 </LinearLayout>
