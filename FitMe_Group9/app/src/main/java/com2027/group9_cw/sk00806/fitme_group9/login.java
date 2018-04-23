@@ -27,7 +27,6 @@ public class login extends AppCompatActivity {
 
         /** Play and Score Button initialisations */
         loginButton = (ImageButton) findViewById(R.id.login_button);
-        registerButton = (ImageButton) findViewById(R.id.register_button);
 
         /** Login and Register Button Change of Image when touched */
         // Login Button Listener
@@ -35,11 +34,11 @@ public class login extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN){      // If Login Button is pressed
-                    loginButton.setImageResource(R.drawable.login_pressed);   // Image Resource is set to 'login_pressed'
+                    loginButton.setImageResource(R.drawable.google_button_pressed);   // Image Resource is set to 'login_pressed'
                     return true;
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP){        // If Login button is released
-                    loginButton.setImageResource(R.drawable.login);           // Image Resource is set to 'login'
+                    loginButton.setImageResource(R.drawable.google_button);           // Image Resource is set to 'login'
                     startActivity(new Intent(login.this, mainScreen.class)); //MainScreen Activity Starts
                     return true;
                 }
@@ -47,21 +46,5 @@ public class login extends AppCompatActivity {
             }
         });
 
-        // Register Button Listener
-        registerButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN){      // If Register Button is pressed
-                    registerButton.setImageResource(R.drawable.register_pressed);   // Image Resource is set to 'register_pressed'
-                    return true;
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP){        // If Register button is released
-                    registerButton.setImageResource(R.drawable.register);           // Image Resource is set to 'register'
-                    startActivity(new Intent(login.this, mainScreen.class)); //MainScreen Activity Starts
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 }

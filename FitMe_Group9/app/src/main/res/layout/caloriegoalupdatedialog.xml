@@ -4,6 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="@drawable/background"
     android:padding="10dp" >
 
     <TextView
@@ -11,12 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Breakfast Calorie Goal"
+        android:textColor="@color/colorWhite"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
         android:id="@+id/editTextDialogUserInput1"
         android:layout_width="match_parent"
         android:textAlignment="center"
+        android:textColor="@color/colorWhite"
         android:layout_height="wrap_content" >
 
         <requestFocus />
@@ -27,12 +30,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lunch Calorie Goal"
+        android:textColor="@color/colorWhite"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
         android:id="@+id/editTextDialogUserInput2"
         android:layout_width="match_parent"
         android:textAlignment="center"
+        android:textColor="@color/colorWhite"
         android:layout_height="wrap_content" >
 
 
@@ -42,12 +47,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dinner Calorie Goal"
+        android:textColor="@color/colorWhite"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
         android:id="@+id/editTextDialogUserInput3"
         android:layout_width="match_parent"
         android:textAlignment="center"
+        android:textColor="@color/colorWhite"
         android:layout_height="wrap_content" >
 
 
@@ -57,12 +64,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Snack Calorie Goal"
+        android:textColor="@color/colorWhite"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
         android:id="@+id/editTextDialogUserInput4"
         android:layout_width="match_parent"
         android:textAlignment="center"
+        android:textColor="@color/colorWhite"
         android:layout_height="wrap_content" >
 
 

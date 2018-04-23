@@ -31,19 +31,13 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/login"
+        android:src="@drawable/google_button"
+
         android:background="@color/invisible"
         android:layout_gravity="center"
         android:id="@+id/login_button"
 
         />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/register"
-        android:background="@color/invisible"
-        android:layout_gravity="center"
-        android:id="@+id/register_button" />
 
 </LinearLayout>
