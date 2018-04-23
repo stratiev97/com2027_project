@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:gravity="center"
     android:background="@drawable/background"
     tools:context="com2027.group9_cw.sk00806.fitme_group9.login">
 
@@ -17,22 +18,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title"
+        android:fontFamily="Arial"
         android:textStyle="bold"
         android:textColor="@color/colorWhite"
-        android:textSize="45sp"
+        android:textSize="70sp"
         android:layout_gravity="center"
         android:layout_marginBottom="0dp"
         />
     <!-- Subtitle - Copyright Group9 Project -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="75sp"
-        android:text="@string/copyright"
-        android:layout_gravity="center"
-        android:textSize="12sp"
-        android:layout_marginTop="0dp"
-        android:id="@+id/textView" />
+
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -50,8 +44,6 @@
         android:src="@drawable/register"
         android:background="@color/invisible"
         android:layout_gravity="center"
-        android:id="@+id/register_button"
-
-        />
+        android:id="@+id/register_button" />
 
 </LinearLayout>

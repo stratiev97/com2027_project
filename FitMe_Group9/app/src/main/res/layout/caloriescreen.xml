@@ -20,59 +20,213 @@
         android:layout_gravity="center"
         />
 
+    <!-- Goal title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/titleCalorieGoal"
+        android:textColor="@color/colorWhite"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_gravity="left"
+        />
+
     <!-- Add Progress Bar Code Here -->
     <ProgressBar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
 
-    <!-- Title Breakfast -->
+    <!-- Summary title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/titleCalorieSummary"
+        android:textColor="@color/colorWhite"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_gravity="left"
+        />
+
+    <!-- Breakfast -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/titleBreakfast"
-        android:textStyle="bold"
         android:textColor="@color/colorWhite"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:layout_gravity="left"
         />
 
     <!-- Add List Code Here -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp"
+            android:layout_weight="5"
+            android:textStyle="italic"
+            android:text="Goal:"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textStyle="italic"
+            android:textSize="17sp"
+            android:layout_weight="5"
+            android:text="Current:"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:text="Add Entry"/>
+    </LinearLayout>
 
     <!-- Title Lunch -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/titleLunch"
-        android:textStyle="bold"
         android:textColor="@color/colorWhite"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:layout_gravity="left"
         />
 
-    <!-- Add List Code Here -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal">
 
-    <!-- Title Dinner -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp"
+            android:layout_weight="5"
+            android:textStyle="italic"
+            android:text="Goal:"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textStyle="italic"
+            android:layout_weight="5"
+            android:textSize="17sp"
+            android:text="Current:"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:text="Add Entry"/>
+    </LinearLayout>
+
+    <!-- Dinner -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/titleDinner"
-        android:textStyle="bold"
         android:textColor="@color/colorWhite"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:layout_gravity="left"
         />
 
     <!-- Add List Code Here -->
-    <!-- Title Lunch -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp"
+            android:textStyle="italic"
+            android:layout_weight="5"
+            android:text="Goal:"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:layout_weight="5"
+            android:textStyle="italic"
+            android:textSize="17sp"
+            android:text="Current:"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:text="Add Entry"/>
+    </LinearLayout>
+
+    <!-- Snacks -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/titleSnacks"
-        android:textStyle="bold"
         android:textColor="@color/colorWhite"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:layout_gravity="left"
         />
 
-    <!-- Add List Code Here -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp"
+            android:layout_weight="5"
+            android:textStyle="italic"
+            android:text="Goal:"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textStyle="italic"
+            android:layout_weight="5"
+            android:textSize="17sp"
+            android:text="Current:"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:text="Add Entry"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Calculate Today's Goal"/>
+
 </LinearLayout>

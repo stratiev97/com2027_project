@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/titleGlobal"
+        android:text="@string/titleScores"
         android:textStyle="bold"
         android:textColor="@color/colorWhite"
         android:textSize="45sp"
@@ -31,6 +31,12 @@
         android:layout_gravity="left"
         />
 
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner1">
+    </Spinner>
+
     <!-- Add List Code Here -->
 
     <!-- Title Weight -->
@@ -39,10 +45,18 @@
         android:layout_height="wrap_content"
         android:text="@string/titleWeight"
         android:textStyle="bold"
+        android:paddingTop="20dp"
         android:textColor="@color/colorWhite"
         android:textSize="25sp"
         android:layout_gravity="left"
         />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner2">
+
+    </Spinner>
 
     <!-- Add List Code Here -->
 
@@ -54,8 +68,15 @@
         android:textStyle="bold"
         android:textColor="@color/colorWhite"
         android:textSize="25sp"
+        android:paddingTop="20dp"
         android:layout_gravity="left"
         />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner3">
+    </Spinner>
 
     <!-- Add List Code Here -->
 
