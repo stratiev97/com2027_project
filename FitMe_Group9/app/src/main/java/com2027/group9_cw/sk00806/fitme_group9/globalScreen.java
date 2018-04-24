@@ -11,7 +11,7 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 
-public class gglobalScreen extends AppCompatActivity{
+public class globalScreen extends AppCompatActivity{
 
 
     @Override

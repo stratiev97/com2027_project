@@ -23,6 +23,7 @@
             android:textColor="@color/colorWhite"
             android:textSize="40sp"
             android:text="@string/weightTextCurrent"
+            android:id="@+id/mainscreen_currentweight"
             android:layout_gravity="start"/>
 
     </LinearLayout>
@@ -38,6 +39,7 @@
             android:text="@string/weightTextTarget"
             android:textColor="@color/colorWhite"
             android:textSize="40sp"
+            android:id="@+id/mainscreen_targetweight"
             android:layout_gravity="start"
             />
     </LinearLayout>
@@ -49,11 +51,14 @@
 
         <TextView
             android:layout_width="wrap_content"
+            android:id="@+id/mainscreen_totalweightlost"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
             android:textSize="40sp"
+
             android:text="@string/titleWeightLost"
-            android:layout_gravity="start"/>
+            android:gravity="center"
+            />
 
     </LinearLayout>
 
@@ -67,9 +72,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/distanceText"
+            android:id="@+id/mainscreen_distancetravelled"
             android:textColor="@color/colorWhite"
             android:textSize="40sp"
-            android:layout_gravity="start"
             />
 
     </LinearLayout>
@@ -84,12 +89,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/calorieText"
+            android:id="@+id/mainscreen_avgdailycalories"
             android:textColor="@color/colorWhite"
             android:textSize="40sp"
             android:layout_gravity="start"
             />
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:text="Generate Dummy Data"
+            android:id="@+id/mainscreen_dummydata"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:text="Reset"
+            android:id="@+id/mainscreen_reset"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
     <!-- Insert Progress Graph here -->
 
@@ -126,6 +152,7 @@
                 />
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

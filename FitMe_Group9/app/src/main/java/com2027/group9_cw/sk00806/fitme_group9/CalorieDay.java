@@ -50,7 +50,21 @@ public class CalorieDay implements Parcelable {
         this.dinner_goal = dinner_calories;
         this.snack_goal = snack_calories;
 
-        this.date = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());;
+        this.date = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+    }
+
+    public CalorieDay(int breakfast_calories, int lunch_calories, int dinner_calories, int snack_calories, int breakfast_goal, int lunch_goal, int dinner_goal, int snack_goal, String date){
+        this.breakfast_calories = breakfast_calories;
+        this.lunch_calories = lunch_calories;
+        this.dinner_calories = dinner_calories;
+        this.snack_calories = snack_calories;
+
+        this.breakfast_goal = breakfast_goal;
+        this.lunch_goal = lunch_goal;
+        this.dinner_goal = dinner_goal;
+        this.snack_goal = snack_goal;
+
+        this.date = date;
     }
 
     public CalorieDay(Parcel in){
@@ -85,6 +99,10 @@ public class CalorieDay implements Parcelable {
 
     public void setBreakfast_calories(int breakfast_calories) {
         this.breakfast_calories = breakfast_calories;
+    }
+
+    public int getTotalCalories(){
+        return breakfast_calories + lunch_calories + dinner_calories + snack_calories;
     }
 
     public int getLunch_calories() {

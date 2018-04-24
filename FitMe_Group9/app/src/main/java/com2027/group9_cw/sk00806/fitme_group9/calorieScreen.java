@@ -71,9 +71,15 @@ public class calorieScreen extends AppCompatActivity {
 
         this.calorieDay = intent.getParcelableExtra("CalorieDay");
 
+
         if(this.calorieDay == null){
             this.calorieDay = new CalorieDay();
         }
+
+        this.calorieDay.setBreakfast_goal(intent.getIntExtra("BreakfastGoal",0));
+        this.calorieDay.setLunch_goal(intent.getIntExtra("LunchGoal",0));
+        this.calorieDay.setDinner_goal(intent.getIntExtra("DinnerGoal",0));
+        this.calorieDay.setSnack_goal(intent.getIntExtra("SnackGoal",0));
 
         this.breakfastCurrentLabel = (TextView) findViewById(R.id.calorieScreen_breakfastCurrentLabel);
         this.lunchCurrentLabel = (TextView) findViewById(R.id.calorieScreen_lunchCurrentLabel);
@@ -189,22 +195,25 @@ public class calorieScreen extends AppCompatActivity {
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                int value = Integer.parseInt(userInput.getText().toString());
-                                switch(valueToUpdate){
-                                    case ADD_TO_BREAKFAST:
-                                        calorieDay.setBreakfast_calories(calorieDay.getBreakfast_calories() + value);
-                                        break;
-                                    case ADD_TO_LUNCH:
-                                        calorieDay.setLunch_calories(calorieDay.getLunch_calories() + value);
-                                        break;
-                                    case ADD_TO_DINNER:
-                                        calorieDay.setDinner_calories(calorieDay.getDinner_calories() + value);
-                                        break;
-                                    case ADD_TO_SNACKS:
-                                        calorieDay.setSnack_calories(calorieDay.getSnack_calories() + value);
-                                        break;
+                                if(isNumeric(userInput.getText().toString())){
+                                    int value = Integer.parseInt(userInput.getText().toString());
+                                    switch(valueToUpdate){
+                                        case ADD_TO_BREAKFAST:
+                                            calorieDay.setBreakfast_calories(calorieDay.getBreakfast_calories() + value);
+                                            break;
+                                        case ADD_TO_LUNCH:
+                                            calorieDay.setLunch_calories(calorieDay.getLunch_calories() + value);
+                                            break;
+                                        case ADD_TO_DINNER:
+                                            calorieDay.setDinner_calories(calorieDay.getDinner_calories() + value);
+                                            break;
+                                        case ADD_TO_SNACKS:
+                                            calorieDay.setSnack_calories(calorieDay.getSnack_calories() + value);
+                                            break;
+                                    }
+                                    updateView();
                                 }
-                                updateView();
+
                             }
                         })
                 .setNegativeButton("Cancel",
@@ -326,6 +335,7 @@ public class calorieScreen extends AppCompatActivity {
         Intent intent = new Intent();
         System.out.println("um " + calorieDay.getBreakfast_goal());
         intent.putExtra("CalorieDay",calorieDay);
+
         setResult(RESULT_OK, intent);
 
         super.onBackPressed();

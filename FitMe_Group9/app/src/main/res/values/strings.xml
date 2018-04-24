@@ -4,7 +4,7 @@
     <string name="copyright">Group 9 Project - Software Engineering</string>
     <string name="weightTextCurrent">Current Weight: </string>
     <string name="weightTextTarget">Target Weight: </string>
-    <string name="distanceText">Distance Travelled: </string>
+    <string name="distanceText">Avg Distance Travelled: </string>
     <string name="distance">Total Distance: </string>
     <string name="calorieText">Avg Daily Calories: </string>
     <string name="speed">Average Pace: </string>

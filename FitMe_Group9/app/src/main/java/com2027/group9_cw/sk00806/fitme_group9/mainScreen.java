@@ -8,8 +8,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,9 +26,17 @@ public class mainScreen extends AppCompatActivity {
     ImageButton weightButton;
     ImageButton activityButton;
     ImageButton globalButton;
-    ArrayList<CalorieDay> calorieData;
+    TextView currentWeight;
+    TextView targetWeight;
+    TextView distanceTravelled;
+    TextView avgDailyCalories;
+    TextView weightLost;
+    Button dummyData;
+    User user;
+    Button resetData;
 
     final int CALORIE_CODE = 1;
+    final int WEIGHT_CODE = 2;
 
 
     @Override
@@ -42,18 +54,25 @@ public class mainScreen extends AppCompatActivity {
         activityButton = (ImageButton) findViewById(R.id.activity_button);
         globalButton = (ImageButton) findViewById(R.id.global_button);
 
+        targetWeight = (TextView) findViewById(R.id.mainscreen_targetweight);
+        distanceTravelled = (TextView) findViewById(R.id.mainscreen_distancetravelled);
+        avgDailyCalories = (TextView) findViewById(R.id.mainscreen_avgdailycalories);
+        weightLost = (TextView) findViewById(R.id.mainscreen_totalweightlost);
+        currentWeight = (TextView) findViewById(R.id.mainscreen_currentweight);
+        dummyData = (Button) findViewById(R.id.mainscreen_dummydata);
+        resetData = (Button) findViewById(R.id.mainscreen_reset);
+
 
         if(savedInstanceState!=null) {
-            if (savedInstanceState.containsKey("CalorieData")) {
-                this.calorieData = savedInstanceState.getParcelableArrayList("CalorieData");
+            if (savedInstanceState.containsKey("User")) {
+                this.user = savedInstanceState.getParcelable("User");
             }else{
             }
         }
-        if(this.calorieData==null){
-            this.calorieData = new ArrayList<CalorieDay>();
+        if(this.user==null){
+            this.user = new User();
 
         }
-        System.out.println("uuh" + calorieData.size());
 
         /** Calories, Weight and Activity Button Change of Image when touched */
         // Calories Button Listener
@@ -67,18 +86,13 @@ public class mainScreen extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_UP){        // If Calories button is released
                     caloriesButton.setImageResource(R.drawable.calories);           // Image Resource is set to 'calories'
                     Intent calorieIntent = new Intent(mainScreen.this, calorieScreen.class);
-                    for(CalorieDay calDay: calorieData){
-                        System.out.println(calDay.getDate());
-                        System.out.println(new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()));
-                        System.out.println(calDay.getDate().equals(new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime())));
+                    String currentDate = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+                    calorieIntent.putExtra("CalorieDay", user.getCalorieDay(currentDate));
+                    calorieIntent.putExtra("BreakfastGoal", user.getBreakfastCalorieGoal());
+                    calorieIntent.putExtra("LunchGoal", user.getLunchCalorieGoal());
+                    calorieIntent.putExtra("DinnerGoal", user.getDinnerCalorieGoal());
+                    calorieIntent.putExtra("SnackGoal", user.getSnackCalorieGoal());
 
-                        if(calDay.getDate().equals(new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()))){
-                            calorieIntent.putExtra("CalorieDay", calDay);
-                        }
-
-                    }
-                    System.out.println("hi2");
-                    System.out.println(calorieData.size());
 
                     startActivityForResult(calorieIntent, CALORIE_CODE);
                     return true;
@@ -97,7 +111,12 @@ public class mainScreen extends AppCompatActivity {
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP){        // If Weight button is released
                     weightButton.setImageResource(R.drawable.weight);           // Image Resource is set to 'weight'
-                    startActivity(new Intent(mainScreen.this, weightScreen.class)); //Weight Activity Starts
+                    Intent weightIntent = new Intent(mainScreen.this, weightScreen.class);
+                    String currentDate = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+                    weightIntent.putParcelableArrayListExtra("WeightDays", user.getWeightDays());
+                    weightIntent.putExtra("TargetWeight", user.getTargetWeight());
+
+                    startActivityForResult(weightIntent, WEIGHT_CODE);
                     return true;
                 }
                 return false;
@@ -137,6 +156,47 @@ public class mainScreen extends AppCompatActivity {
                 return false;
             }
         });
+        dummyData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user.addWeightDay(new WeightDay(80,"20180415"));
+                user.addWeightDay(new WeightDay(77.8,"20180416"));
+                user.addWeightDay(new WeightDay(77.6,"20180417"));
+                user.addWeightDay(new WeightDay(77.7,"20180418"));
+                user.addWeightDay(new WeightDay(77.7,"20180419"));
+                user.addWeightDay(new WeightDay(77.6,"20180420"));
+                user.addWeightDay(new WeightDay(77.4,"20180421"));
+                user.addWeightDay(new WeightDay(77.3,"20180422"));
+                user.addWeightDay(new WeightDay(77.2,"20180423"));
+                user.setTargetWeight(75);
+                user.setBreakfastCalorieGoal(200);
+                user.setLunchCalorieGoal(400);
+                user.setDinnerCalorieGoal(1000);
+                user.setSnackCalorieGoal(400);
+                user.addCalorieDay(new CalorieDay(170,300,1200,200,200,400,1000,400,"20180415"));
+                user.addCalorieDay(new CalorieDay(212,412,1000,222,200,400,1000,400,"20180416"));
+                user.addCalorieDay(new CalorieDay(160,422,1700,333,200,400,1000,400,"20180417"));
+                user.addCalorieDay(new CalorieDay(221,455,890,111,200,400,1000,400,"20180418"));
+                user.addCalorieDay(new CalorieDay(100,435,770,444,200,400,1000,400,"20180419"));
+                user.addCalorieDay(new CalorieDay(0,453,700,111,200,400,1000,400,"20180420"));
+                user.addCalorieDay(new CalorieDay(232,342,1300,222,200,400,1000,400,"20180421"));
+                user.addCalorieDay(new CalorieDay(444,324,200,333,200,400,1000,400,"20180422"));
+                user.addCalorieDay(new CalorieDay(123,311,1200,444,200,400,1000,400,"20180423"));
+
+                updateViews();
+
+            }
+        });
+
+        resetData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user = new User();
+                updateViews();
+
+            }
+        });
+        updateViews();
 
     };
 
@@ -144,7 +204,7 @@ public class mainScreen extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
 
-        outState.putParcelableArrayList("CalorieData", this.calorieData);
+        outState.putParcelable("User", this.user);
     }
 
     @Override
@@ -152,26 +212,45 @@ public class mainScreen extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==CALORIE_CODE){
             if(resultCode==RESULT_OK){
-                System.out.println("ohio");
                 CalorieDay calDay = data.getParcelableExtra("CalorieDay");
-                System.out.println(calDay.getDate());
-                Boolean set = false;
-                for(int i=0; i<calorieData.size(); i++){
-                    if(calorieData.get(i).getDate().equals(calDay.getDate())){
-                        calorieData.set(i,calDay);
-                        set = true;
-                    }
+                if(calDay!=null){
+                    this.user.addCalorieDay(calDay);
+                    this.user.setBreakfastCalorieGoal(calDay.getBreakfast_goal());
+                    this.user.setLunchCalorieGoal(calDay.getLunch_goal());
+                    this.user.setDinnerCalorieGoal(calDay.getDinner_goal());
+                    this.user.setSnackCalorieGoal(calDay.getSnack_goal());
                 }
-                if(!set){
-                    System.out.println("ohio2");
-
-                    calorieData.add(calDay);
+            }
+        }else if(requestCode==WEIGHT_CODE){
+            if(resultCode==RESULT_OK){
+                WeightDay weightDay = data.getParcelableExtra("WeightDay");
+                double targetWeight = data.getDoubleExtra("TargetWeight", 0.00);
+                if(weightDay!=null){
+                    this.user.addWeightDay(weightDay);
                 }
-                System.out.println(calDay.getBreakfast_goal());
-
-                System.out.println(calorieData.size());
+                this.user.setTargetWeight(targetWeight);
             }
         }
+        updateViews();
 
+    }
+
+    public void updateViews(){
+        if(user!=null){
+            NumberFormat formatter = new DecimalFormat("#0.0");
+
+            currentWeight.setText("Current Weight: "+ Double.toString(user.getWeight()) + "kg");
+            targetWeight.setText("Target Weight: " + Double.toString(user.getTargetWeight()) +"kg");
+            weightLost.setText("Weight Lost: "+formatter.format(user.getWeightLost())+"kg");
+            distanceTravelled.setText("Avg Distance Travelled: " + Double.toString(user.getAvgDistanceTravelled())+"m");
+            avgDailyCalories.setText("Avg Daily Calories: "+ formatter.format(user.getAvgDailyCalories()));
+
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("User", user);
     }
 }
