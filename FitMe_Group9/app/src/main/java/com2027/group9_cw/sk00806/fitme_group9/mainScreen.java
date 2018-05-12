@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -11,6 +12,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -34,6 +44,10 @@ public class mainScreen extends AppCompatActivity {
     Button dummyData;
     User user;
     Button resetData;
+    Button logoutButton;
+    FirebaseAuth mAuth;
+    GoogleApiClient mGoogleApiClient;
+
 
     final int CALORIE_CODE = 1;
     final int WEIGHT_CODE = 2;
@@ -198,6 +212,35 @@ public class mainScreen extends AppCompatActivity {
         });
         updateViews();
 
+
+        /** On Logout Click Initialisation and  Listener */
+        mAuth = FirebaseAuth.getInstance();
+        logoutButton = (Button) findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut(); // Signs out, redirects to log in screen
+            }
+        });
+
+        /** Configure sign-in to request the user's ID, email address and basic profile.
+         *  ID and basic profile are included in DEFAULT_SIGN_IN
+         */
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        /** Build a GoogleAPIclient with access to the Google Sign-In API and the options specified by gso. */
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* Fragment Activity */, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override //This is a Listener for a Failed Connection.
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Toast.makeText(mainScreen.this, "Something Went Wrong", Toast.LENGTH_SHORT).show(); // This displays a toast on Connection Failed that reads "Something Went Wrong"
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     };
 
     @Override
@@ -253,4 +296,21 @@ public class mainScreen extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putParcelable("User", user);
     }
+
+    /** SignOut Method */
+    private void signOut() {
+        // Firebase sign out
+        mAuth.signOut();
+
+        // Google sign out
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        //redirect back to log in screen.
+                        startActivity(new Intent(mainScreen.this, login.class));
+                    }
+                });
+    }
+
 }

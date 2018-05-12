@@ -25,19 +25,15 @@
         android:layout_gravity="center"
         android:layout_marginBottom="0dp"
         />
-    <!-- Subtitle - Copyright Group9 Project -->
 
-
-    <ImageButton
+    <!-- Google Sign In Button -->
+    <com.google.android.gms.common.SignInButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/google_button"
+        android:id="@+id/google_login_button">
 
-        android:background="@color/invisible"
-        android:layout_gravity="center"
-        android:id="@+id/login_button"
+    </com.google.android.gms.common.SignInButton>
 
-        />
 
 
 </LinearLayout>
