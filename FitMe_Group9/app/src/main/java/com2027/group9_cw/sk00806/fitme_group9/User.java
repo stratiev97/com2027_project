@@ -21,7 +21,7 @@ import static java.lang.Boolean.TRUE;
 
 public class User implements Parcelable{
 
-
+    private String displayName;
     private int id;
     private int breakfastCalorieGoal;
     private int lunchCalorieGoal;
@@ -34,7 +34,7 @@ public class User implements Parcelable{
     private DatabaseReference databaseRef;
 
 
-    public User(){
+    public User(String displayName){
         targetWeight=0;
         this.id=1;
         this.breakfastCalorieGoal=0;
@@ -44,6 +44,7 @@ public class User implements Parcelable{
         this.weight=0;
         this.calorieDays = new ArrayList<>();
         this.weightDays = new ArrayList<>();
+        this.displayName = displayName;
 
         //Should call the DB for messing with.
         this.databaseRef = FirebaseDatabase.getInstance().getReference();
@@ -63,14 +64,14 @@ public class User implements Parcelable{
         //Going to set this to check if it exists but can't figure out why
         if(null == null) {
             //The TRUE result is going to in the future read from the database and populate it with those values. Right now it's set to create this for debugging.
-            databaseRef.child("Database").child("User").child("UserID").setValue(Integer.toString(id));
-            this.databaseRef = databaseRef.child("Database").child("User").child("UserID").child(Integer.toString(id));
+            databaseRef.child("Database").child("User").child("UserName").setValue(this.displayName);
+            this.databaseRef = databaseRef.child("Database").child("User").child("UserName").child(this.displayName);
             databaseRef.child("Blah").setValue("PREVIOUS DATA FOUND");
 
         } else{
             //THE BELOW CODE SHOULD BE RIGGED UP TO BE CALLED ONLY IF IT DOESNT ALREADY EXIST.
-            databaseRef.child("Database").child("User").child("UserID").setValue(Integer.toString(id));
-            this.databaseRef = databaseRef.child("Database").child("User").child("UserID").child(Integer.toString(id));
+            databaseRef.child("Database").child("User").child("UserName").setValue(this.displayName);
+            this.databaseRef = databaseRef.child("Database").child("User").child("UserName").child(this.displayName);
             databaseRef.child("Blah").setValue("PREVIOUS DATA NOT FOUND");
         }
 
@@ -78,6 +79,7 @@ public class User implements Parcelable{
 
 
     protected User(Parcel in) {
+        displayName = in.readString();
         id = in.readInt();
         breakfastCalorieGoal = in.readInt();
         lunchCalorieGoal = in.readInt();
@@ -109,7 +111,7 @@ public class User implements Parcelable{
 
     public void setId(int id) {
         this.id = id;
-        databaseRef.child("Database").child("User").child("UserID").setValue(Integer.toString(id));
+        databaseRef.child("Database").child("User").child("UserName").child("ID").setValue(Integer.toString(id));
 
     }
 
@@ -250,6 +252,7 @@ public class User implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
+        dest.writeString(this.displayName);
         dest.writeInt(this.id);
         dest.writeInt(this.breakfastCalorieGoal);
         dest.writeInt(this.lunchCalorieGoal);
@@ -259,6 +262,7 @@ public class User implements Parcelable{
         dest.writeDouble(this.targetWeight);
         dest.writeList(weightDays);
         dest.writeList(calorieDays);
+
 
     }
 }
