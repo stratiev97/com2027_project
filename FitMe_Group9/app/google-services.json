@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "712500470059",
+    "firebase_url": "https://com2027-fitme.firebaseio.com",
+    "project_id": "com2027-fitme",
+    "storage_bucket": "com2027-fitme.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712500470059:android:fcf52bbb0d627789",
+        "android_client_info": {
+          "package_name": "com2027.group9_cw.sk00806.fitme_group9"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712500470059-9fvvqmt8qjibrd9jsvi5plj2a59ikumf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com2027.group9_cw.sk00806.fitme_group9",
+            "certificate_hash": "4803b75319461a4b4f683bd1c264043b5766dfd0"
+          }
+        },
+        {
+          "client_id": "712500470059-v5h7u4qmbf2p2h77dpg2epadgemsibae.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com2027.group9_cw.sk00806.fitme_group9",
+            "certificate_hash": "1da948d2aadaf7a0c5355d43ebe64d239a7b1244"
+          }
+        },
+        {
+          "client_id": "712500470059-dbcimb910gda02uoi2lk337n7seiighn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com2027.group9_cw.sk00806.fitme_group9",
+            "certificate_hash": "5fb686546b417484ff592e9f2b7c676613701f84"
+          }
+        },
+        {
+          "client_id": "712500470059-adt4ocmm9v7jep7at464pvjis30hkrge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWBWE7si0tIhZVD8SgRernLr3EHS4AEbQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712500470059-adt4ocmm9v7jep7at464pvjis30hkrge.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

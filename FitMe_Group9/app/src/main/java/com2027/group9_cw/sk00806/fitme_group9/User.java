@@ -3,8 +3,17 @@ package com2027.group9_cw.sk00806.fitme_group9;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 /**
  * Created by christopher on 23/04/2018.
@@ -22,11 +31,12 @@ public class User implements Parcelable{
     private double targetWeight;
     private ArrayList<CalorieDay> calorieDays;
     private ArrayList<WeightDay> weightDays;
+    private DatabaseReference databaseRef;
 
 
     public User(){
         targetWeight=0;
-        this.id=0;
+        this.id=1;
         this.breakfastCalorieGoal=0;
         this.lunchCalorieGoal=0;
         this.dinnerCalorieGoal=0;
@@ -34,6 +44,35 @@ public class User implements Parcelable{
         this.weight=0;
         this.calorieDays = new ArrayList<>();
         this.weightDays = new ArrayList<>();
+
+        //Should call the DB for messing with.
+        this.databaseRef = FirebaseDatabase.getInstance().getReference();
+
+        //Check if DB exists. In the future. I've been poking at similar things since 4am and this one seems most likely to wrok, but right now I need sleep.
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //if dataSnapshot.
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //Going to set this to check if it exists but can't figure out why
+        if(null == null) {
+            //The TRUE result is going to in the future read from the database and populate it with those values. Right now it's set to create this for debugging.
+            databaseRef.child("Database").child("User").child("UserID").setValue(Integer.toString(id));
+            this.databaseRef = databaseRef.child("Database").child("User").child("UserID").child(Integer.toString(id));
+            databaseRef.child("Blah").setValue("PREVIOUS DATA FOUND");
+
+        } else{
+            //THE BELOW CODE SHOULD BE RIGGED UP TO BE CALLED ONLY IF IT DOESNT ALREADY EXIST.
+            databaseRef.child("Database").child("User").child("UserID").setValue(Integer.toString(id));
+            this.databaseRef = databaseRef.child("Database").child("User").child("UserID").child(Integer.toString(id));
+            databaseRef.child("Blah").setValue("PREVIOUS DATA NOT FOUND");
+        }
 
     }
 
@@ -48,6 +87,8 @@ public class User implements Parcelable{
         targetWeight = in.readDouble();
         calorieDays = in.createTypedArrayList(CalorieDay.CREATOR);
         weightDays = in.createTypedArrayList(WeightDay.CREATOR);
+
+
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -68,6 +109,8 @@ public class User implements Parcelable{
 
     public void setId(int id) {
         this.id = id;
+        databaseRef.child("Database").child("User").child("UserID").setValue(Integer.toString(id));
+
     }
 
     public int getBreakfastCalorieGoal() {
@@ -76,6 +119,7 @@ public class User implements Parcelable{
 
     public void setBreakfastCalorieGoal(int breakfastCalorieGoal) {
         this.breakfastCalorieGoal = breakfastCalorieGoal;
+        databaseRef.child("Goals").child("BreakfastCalorieGoal").setValue(Integer.toString(breakfastCalorieGoal));
     }
 
     public double getWeightLost(){
