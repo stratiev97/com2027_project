@@ -48,7 +48,6 @@ public class mainScreen extends AppCompatActivity {
     FirebaseAuth mAuth;
     GoogleApiClient mGoogleApiClient;
 
-
     final int CALORIE_CODE = 1;
     final int WEIGHT_CODE = 2;
 
@@ -76,6 +75,9 @@ public class mainScreen extends AppCompatActivity {
         dummyData = (Button) findViewById(R.id.mainscreen_dummydata);
         resetData = (Button) findViewById(R.id.mainscreen_reset);
 
+        mAuth = FirebaseAuth.getInstance();
+        String authUsername = this.mAuth.getCurrentUser().getDisplayName().toString();
+        final String username = authUsername;
 
         if(savedInstanceState!=null) {
             if (savedInstanceState.containsKey("User")) {
@@ -84,7 +86,7 @@ public class mainScreen extends AppCompatActivity {
             }
         }
         if(this.user==null){
-            this.user = new User();
+            this.user = new User(username);
 
         }
 
@@ -205,7 +207,7 @@ public class mainScreen extends AppCompatActivity {
         resetData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user = new User();
+                user = new User(username);
                 updateViews();
 
             }
