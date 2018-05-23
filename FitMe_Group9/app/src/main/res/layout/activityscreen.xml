@@ -27,34 +27,77 @@
         android:layout_gravity="center_horizontal">
 
         <!-- Distance Text -->
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/distance"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:layout_weight="1"
-            />
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/distance"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:id="@+id/distanceText"/>
+        </LinearLayout>
+
 
         <!-- Speed Text -->
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/speed"
-            android:textColor="@color/colorWhite"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            />
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speed"
+                android:textColor="@color/colorWhite"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:id="@+id/speedText"/>
+            </LinearLayout>
 
         <!-- Points Text -->
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/points"
-            android:layout_weight="1"
-            android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            />
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/points"
+                android:layout_weight="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:layout_weight="1"
+                android:id="@+id/pointsText"/>
+        </LinearLayout>
 
     </LinearLayout>
 
