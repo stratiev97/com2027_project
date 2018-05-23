@@ -11,185 +11,201 @@
 
     <!-- Top Screen - General Info -->
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="40sp"
+                    android:text="@string/weightTextCurrent"
+                    android:id="@+id/mainscreen_currentweight"
+                    android:layout_gravity="start"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weightTextTarget"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="40sp"
+                    android:id="@+id/mainscreen_targetweight"
+                    android:layout_gravity="start"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/mainscreen_totalweightlost"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="40sp"
+
+                    android:text="@string/titleWeightLost"
+                    android:gravity="center"
+                    />
+
+            </LinearLayout>
+
+            <!-- Distance Info -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/distanceText"
+                    android:id="@+id/mainscreen_distancetravelled"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="40sp"
+                    />
+
+            </LinearLayout>
+
+            <!-- Calorie Info -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/calorieText"
+                    android:id="@+id/mainscreen_avgdailycalories"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="40sp"
+                    android:layout_gravity="start"
+                    />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Generate Dummy Data"
+                    android:id="@+id/mainscreen_dummydata"
+                    android:layout_height="wrap_content" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Reset"
+                    android:id="@+id/mainscreen_reset"
+                    android:layout_height="wrap_content" />
+
+                <!-- LOG OUT BUTTON - TO BE PLACED ELSEWHERE -->
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="LOG OUT"
+                    android:id="@+id/logoutButton"/>
+
+            </LinearLayout>
+
+
+            <!-- Insert Progress Graph here -->
+
+
+            <!-- Buttons to Other Activity Screens -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="bottom"
+                android:gravity="bottom">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/calories"
+                        android:background="@color/invisible"
+                        android:id="@+id/calories_button"
+                        />
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/weight"
+                        android:background="@color/invisible"
+                        android:id="@+id/weight_button"
+                        />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal">
+
+
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/activity"
+                        android:background="@color/invisible"
+                        android:gravity="end"
+                        android:id="@+id/activity_button"
+                        />
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/global"
+                        android:background="@color/invisible"
+                        android:gravity="end"
+                        android:id="@+id/global_button"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <!-- Weight Info -->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:textSize="40sp"
-            android:text="@string/weightTextCurrent"
-            android:id="@+id/mainscreen_currentweight"
-            android:layout_gravity="start"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/weightTextTarget"
-            android:textColor="@color/colorWhite"
-            android:textSize="40sp"
-            android:id="@+id/mainscreen_targetweight"
-            android:layout_gravity="start"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:id="@+id/mainscreen_totalweightlost"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:textSize="40sp"
-
-            android:text="@string/titleWeightLost"
-            android:gravity="center"
-            />
-
-    </LinearLayout>
-
-    <!-- Distance Info -->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/distanceText"
-            android:id="@+id/mainscreen_distancetravelled"
-            android:textColor="@color/colorWhite"
-            android:textSize="40sp"
-            />
-
-    </LinearLayout>
-
-    <!-- Calorie Info -->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/calorieText"
-            android:id="@+id/mainscreen_avgdailycalories"
-            android:textColor="@color/colorWhite"
-            android:textSize="40sp"
-            android:layout_gravity="start"
-            />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:text="Generate Dummy Data"
-            android:id="@+id/mainscreen_dummydata"
-            android:layout_height="wrap_content" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:text="Reset"
-            android:id="@+id/mainscreen_reset"
-            android:layout_height="wrap_content" />
-
-        <!-- LOG OUT BUTTON - TO BE PLACED ELSEWHERE -->
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="LOG OUT"
-            android:id="@+id/logoutButton"/>
-
-    </LinearLayout>
-
-
-    <!-- Insert Progress Graph here -->
-
-
-    <!-- Buttons to Other Activity Screens -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="bottom"
-        android:gravity="bottom">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:gravity="center_horizontal">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/calories"
-                android:background="@color/invisible"
-                android:id="@+id/calories_button"
-                />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/weight"
-                android:background="@color/invisible"
-                android:id="@+id/weight_button"
-                />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:gravity="center_horizontal">
-
-
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/activity"
-                android:background="@color/invisible"
-                android:gravity="end"
-                android:id="@+id/activity_button"
-                />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/global"
-                android:background="@color/invisible"
-                android:gravity="end"
-                android:id="@+id/global_button"
-                />
-        </LinearLayout>
-    </LinearLayout>
 
 
 </LinearLayout>
