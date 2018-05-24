@@ -31,6 +31,7 @@ public class User implements Parcelable{
     private double targetWeight;
     private ArrayList<CalorieDay> calorieDays;
     private ArrayList<WeightDay> weightDays;
+    private ArrayList<ProgressPicture> images;
     private DatabaseReference databaseRef;
 
 
@@ -44,6 +45,7 @@ public class User implements Parcelable{
         this.weight=0;
         this.calorieDays = new ArrayList<>();
         this.weightDays = new ArrayList<>();
+        this.images = new ArrayList<>();
         this.displayName = displayName;
 
         //Should call the DB for messing with.
@@ -89,6 +91,7 @@ public class User implements Parcelable{
         targetWeight = in.readDouble();
         calorieDays = in.createTypedArrayList(CalorieDay.CREATOR);
         weightDays = in.createTypedArrayList(WeightDay.CREATOR);
+        images = in.readArrayList(String.class.getClassLoader());
 
 
     }
@@ -149,6 +152,23 @@ public class User implements Parcelable{
 
     public void setLunchCalorieGoal(int lunchCalorieGoal) {
         this.lunchCalorieGoal = lunchCalorieGoal;
+    }
+
+    public ArrayList<CalorieDay> getCalorieDays() {
+        return calorieDays;
+    }
+
+    public void setCalorieDays(ArrayList<CalorieDay> calorieDays) {
+        this.calorieDays = calorieDays;
+    }
+
+    public ArrayList<ProgressPicture> getImages() {
+
+        return images;
+    }
+
+    public void setImages(ArrayList<ProgressPicture> images) {
+        this.images = images;
     }
 
     public int getDinnerCalorieGoal() {
@@ -262,6 +282,7 @@ public class User implements Parcelable{
         dest.writeDouble(this.targetWeight);
         dest.writeList(weightDays);
         dest.writeList(calorieDays);
+        dest.writeList(images);
 
 
     }

@@ -13,10 +13,20 @@
     android:background="@drawable/background"
     tools:context="com2027.group9_cw.sk00806.fitme_group9.login">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/progress_pictures_recyclerview"
+        android:layout_width="match_parent"
+        android:scrollbars="vertical"
+        android:layout_weight="9"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
     <Button
-        android:text="Progress Pictures"
-        android:id="@+id/overview_screen_progresspicbutton"
+        android:text="Take Picture"
+        android:id="@+id/progress_pictures_takepic"
         android:layout_width="wrap_content"
+        android:layout_weight="0.5"
         android:layout_height="wrap_content" />
 
 

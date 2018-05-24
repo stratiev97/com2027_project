@@ -7,6 +7,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +52,7 @@ public class mainScreen extends AppCompatActivity {
 
     final int CALORIE_CODE = 1;
     final int WEIGHT_CODE = 2;
+    final int OVERVIEW_CODE = 3;
 
 
     @Override
@@ -185,8 +187,18 @@ public class mainScreen extends AppCompatActivity {
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP){        // If Overview button is released
                     overviewButton.setImageResource(R.drawable.overview);           // Image Resource is set to 'overview'
-                    startActivity(new Intent(mainScreen.this, overviewScreen.class)); //Overview Activity Starts
+                    Intent overviewIntent = new Intent(mainScreen.this, overviewScreen.class);
+                    overviewIntent.putParcelableArrayListExtra("WeightDays", user.getWeightDays());
+                    Log.e("waa", Integer.toString(user.getWeightDays().size()));
+                    overviewIntent.putParcelableArrayListExtra("CalorieDays", user.getCalorieDays());
+                    overviewIntent.putParcelableArrayListExtra("Images", user.getImages());
+                    startActivityForResult(overviewIntent, OVERVIEW_CODE);
+
+
                     return true;
+
+
+
                 }
                 return false;
             }
@@ -312,11 +324,6 @@ public class mainScreen extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable("User", user);
-    }
 
     /** SignOut Method */
     private void signOut() {
