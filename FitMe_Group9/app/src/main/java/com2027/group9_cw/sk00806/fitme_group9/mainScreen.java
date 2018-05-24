@@ -36,6 +36,7 @@ public class mainScreen extends AppCompatActivity {
     ImageButton weightButton;
     ImageButton activityButton;
     ImageButton globalButton;
+    ImageButton overviewButton;
     TextView currentWeight;
     TextView targetWeight;
     TextView distanceTravelled;
@@ -66,6 +67,7 @@ public class mainScreen extends AppCompatActivity {
         weightButton = (ImageButton) findViewById(R.id.weight_button);
         activityButton = (ImageButton) findViewById(R.id.activity_button);
         globalButton = (ImageButton) findViewById(R.id.global_button);
+        overviewButton = (ImageButton) findViewById(R.id.overview_button);
 
         targetWeight = (TextView) findViewById(R.id.mainscreen_targetweight);
         distanceTravelled = (TextView) findViewById(R.id.mainscreen_distancetravelled);
@@ -167,6 +169,23 @@ public class mainScreen extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_UP){        // If Global button is released
                     globalButton.setImageResource(R.drawable.global);           // Image Resource is set to 'global'
                     startActivity(new Intent(mainScreen.this, globalScreen.class)); //Global Activity Starts
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        // Overview Button Listener
+        overviewButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN){      // If Overview Button is pressed
+                    overviewButton.setImageResource(R.drawable.overview_pressed);   // Image Resource is set to 'overview_pressed'
+                    return true;
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP){        // If Overview button is released
+                    overviewButton.setImageResource(R.drawable.overview);           // Image Resource is set to 'overview'
+                    startActivity(new Intent(mainScreen.this, overviewScreen.class)); //Overview Activity Starts
                     return true;
                 }
                 return false;
