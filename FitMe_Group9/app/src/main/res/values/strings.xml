@@ -7,7 +7,7 @@
     <string name="distanceText">Avg Distance Travelled: </string>
     <string name="distance">Total Distance: </string>
     <string name="calorieText">Avg Daily Calories: </string>
-    <string name="speed">Average Pace: </string>
+    <string name="speed">Average Speed: </string>
     <string name="points">Total Points:</string>
     <string name="titleCalories">Calorie Goals</string>
     <string name="titleBreakfast">Breakfast</string>

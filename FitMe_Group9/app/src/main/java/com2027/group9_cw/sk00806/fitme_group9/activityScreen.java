@@ -29,6 +29,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.w3c.dom.Text;
+
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Random;
@@ -41,17 +43,22 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
     private GoogleMap mMap;
     private TextView distanceText;
     private TextView pointsText;
+    private TextView paceText;
     int buttonState = 0;
     double distance = 0;
     double distance2 = 0;
+    double speed = 0;
+    int points = 0;
     int dtemp = 0;
     int ptemp = 0;
     int ctemp = 0;
-    int points = 0;
+    double stemp = 0;
     Circle circle1;
     Circle circle2;
     Circle circle3;
+    double calculatedSpeed;
     Location initial = null;
+    Location lastlocation = null;
     ArrayList<Location> listLocsToDraw = new ArrayList<Location>();
 
     @Override
@@ -71,6 +78,9 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
 
         /** Points TextView initialization */
         pointsText = (TextView) findViewById(R.id.pointsText);
+
+        /** Pace TextView initialization */
+        paceText = (TextView) findViewById(R.id.speedText);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -163,6 +173,7 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
                     if (initial == null) {
                         initial = arg0;
                     }
+
                     /** Add every location change to List */
                     listLocsToDraw.add(arg0);
                     /** Draw Line of location */
@@ -233,6 +244,23 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
                         updatePoints(points);
                     }
 
+                    /** Check Speed */
+                    if (lastlocation != null) {
+                        double elapsedTime = (arg0.getTime() - lastlocation.getTime()) / 1_000; // Convert milliseconds to seconds
+                        calculatedSpeed = lastlocation.distanceTo(arg0) / elapsedTime;
+                    }
+                    if (listLocsToDraw.size() < 3) {
+                        // Do nothing
+                    }
+                    else {
+                        lastlocation = listLocsToDraw.get(listLocsToDraw.size()-3);
+                    }
+
+                    speed = arg0.hasSpeed() ? arg0.getSpeed() : calculatedSpeed;
+                    stemp = round(speed, 2);
+                    speed = stemp;
+                    updatePace(speed);
+
                 }
 
 
@@ -247,6 +275,8 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
                     ptemp = 0;
                     ctemp = 0;
                     points = 0;
+                    speed = 0;
+                    updatePace(speed);
                     updatePoints(points);
                 }
 
@@ -272,8 +302,28 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
                     ptemp = 4;
                 }
 
-
-
+                /** Assign Points on various speeds */
+                if (speed > 3.0 && speed < 5.0) {
+                    points += 100; //Add points when moving between 3-5 m/s
+                    updatePoints(points);
+                }
+                if (speed > 5.0 && speed < 7.0) {
+                    points += 200; //Add points when moving between 5-7 m/s
+                    updatePoints(points);
+                }
+                if (speed > 7.0 && speed < 10.0) {
+                    points += 500; //Add points when moving between 7-10 m/s
+                    updatePoints(points);
+                }
+                if (speed > 10.0 && speed < 12.5) {
+                    points += 1000; //Add points when moving between 10-12.5 m/s
+                    updatePoints(points);
+                }
+                if (speed > 12.5) {
+                    //Display total Distance.
+                    Toast.makeText(activityScreen.this, "Driving Detected",
+                            Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -343,4 +393,10 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
         pointsText.setText(Integer.toString(points));
     }
 
+
+    /** Method to update Pace Text */
+    public void updatePace(double pace) {
+        round(pace, 2);
+        paceText.setText(Double.toString(pace));
+    }
 }
