@@ -23,12 +23,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class activityScreen extends AppCompatActivity implements OnMapReadyCallback {
@@ -37,9 +40,17 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
     ImageButton startButton;
     private GoogleMap mMap;
     private TextView distanceText;
+    private TextView pointsText;
     int buttonState = 0;
     double distance = 0;
     double distance2 = 0;
+    int dtemp = 0;
+    int ptemp = 0;
+    int ctemp = 0;
+    int points = 0;
+    Circle circle1;
+    Circle circle2;
+    Circle circle3;
     Location initial = null;
     ArrayList<Location> listLocsToDraw = new ArrayList<Location>();
 
@@ -57,6 +68,9 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
 
         /** Distance TextView initialization */
         distanceText = (TextView) findViewById(R.id.distanceText);
+
+        /** Points TextView initialization */
+        pointsText = (TextView) findViewById(R.id.pointsText);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -88,9 +102,8 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
                 if (event.getAction() == MotionEvent.ACTION_UP && buttonState == 3) {        // If Stop button is released
                     startButton.setImageResource(R.drawable.start);           // Image Resource is set to 'start'
                     buttonState = 0;
-
                     //Display total Distance.
-                    Toast.makeText(activityScreen.this, "You covered a total of: " + distance2 + " m                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ",
+                    Toast.makeText(activityScreen.this, "You covered a total of: " + distance2 + " km                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ",
                             Toast.LENGTH_LONG).show();
                     return true;
                 }
@@ -98,6 +111,7 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
                 return false;
             }
         });
+
     }
 
     /**
@@ -154,7 +168,15 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
                     /** Draw Line of location */
                     drawPrimaryLinePath(listLocsToDraw);
                     /** Calculate Distance and update Text */
-                    distance = GetDistanceFromLatLonInm(initial.getLatitude(), initial.getLongitude(), arg0.getLatitude(), arg0.getLongitude());
+                    //For loop to calculate distance
+                    if (listLocsToDraw.size() < 2) {
+                        //do nothing
+                    }
+                    else{
+                        distance += GetDistanceFromLatLonInm(listLocsToDraw.get(dtemp).getLatitude(), listLocsToDraw.get(dtemp).getLongitude(), listLocsToDraw.get(dtemp+1).getLatitude(), listLocsToDraw.get(dtemp+1).getLongitude());
+                        dtemp++;
+                    }
+
 
                     double temp = round(distance, 2); // Keep only 2 dp
                     if (temp >= distance) {
@@ -162,14 +184,96 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
                     }
                     /** Set TextView to distance Text */
                     distanceText.setText(Double.toString(distance2));
+
+                    /** Create Circles */
+                    if (ctemp == 0) {
+                        /** Add 3 random Geofence Maps - 1000 points each time you get it */
+                        Random rand = new Random();
+                        double rand1 = 0.0001 + (0.0002 - 0.0001) * rand.nextDouble();
+                        double rand2 = 0.0001 + (0.0002 - 0.0001) * rand.nextDouble();
+                        double rand3 = 0.0001 + (0.0002 - 0.0001) * rand.nextDouble();
+                        double rand4 = 0.0001 + (0.0002 - 0.0001) * rand.nextDouble();
+                        double rand5 = 0.0001 + (0.0002 - 0.0001) * rand.nextDouble();
+                        double rand6 = 0.0001 + (0.0002 - 0.0001) * rand.nextDouble();
+
+                        circle1 = mMap.addCircle(new CircleOptions().center(new LatLng(arg0.getLatitude() + rand1, arg0.getLongitude() - rand2)).radius(8));
+                        circle2 = mMap.addCircle(new CircleOptions().center(new LatLng(arg0.getLatitude() - rand3, arg0.getLongitude() + rand4)).radius(8));
+                        circle3 = mMap.addCircle(new CircleOptions().center(new LatLng(arg0.getLatitude() - rand5, arg0.getLongitude() - rand6)).radius(8));
+                        ctemp = 1;
+                    }
+
+                    /** On collision to circles */
+                    if (circle1.getCenter().latitude > arg0.getLatitude() - 0.000080 && circle1.getCenter().longitude > arg0.getLongitude() - 0.000080 && circle1.getCenter().latitude < arg0.getLatitude() + 0.000080 && circle1.getCenter().longitude < arg0.getLongitude() + 0.000080) {
+                        Random rand = new Random();
+                        double rand1 = 0.0001 + (0.0003 - 0.0001) * rand.nextDouble();
+                        double rand2 = 0.0001 + (0.0003 - 0.0001) * rand.nextDouble();
+                        circle1.remove();
+                        circle1 = mMap.addCircle(new CircleOptions().center(new LatLng(arg0.getLatitude() + rand1, arg0.getLongitude() - rand2)).radius(8));
+                        points += 1000; // 1000 points for each circle you overlap
+                        updatePoints(points);
+                    }
+
+                    if (circle2.getCenter().latitude > arg0.getLatitude() - 0.000080 && circle2.getCenter().longitude > arg0.getLongitude() - 0.000080 && circle2.getCenter().latitude < arg0.getLatitude() + 0.000080 && circle2.getCenter().longitude < arg0.getLongitude() + 0.000080) {
+                        Random rand = new Random();
+                        double rand1 = 0.0001 + (0.0003 - 0.0001) * rand.nextDouble();
+                        double rand2 = 0.0001 + (0.0003 - 0.0001) * rand.nextDouble();
+                        circle2.remove();
+                        circle2 = mMap.addCircle(new CircleOptions().center(new LatLng(arg0.getLatitude() + rand1, arg0.getLongitude() - rand2)).radius(8));
+                        points += 1000; // 1000 points for each circle you overlap
+                        updatePoints(points);
+                    }
+
+                    if (circle3.getCenter().latitude > arg0.getLatitude() - 0.000080 && circle3.getCenter().longitude > arg0.getLongitude() - 0.000080 && circle3.getCenter().latitude < arg0.getLatitude() + 0.000080 && circle3.getCenter().longitude < arg0.getLongitude() + 0.000080) {
+                        Random rand = new Random();
+                        double rand1 = 0.0001 + (0.0003 - 0.0001) * rand.nextDouble();
+                        double rand2 = 0.0001 + (0.0003 - 0.0001) * rand.nextDouble();
+                        circle3.remove();
+                        circle3 = mMap.addCircle(new CircleOptions().center(new LatLng(arg0.getLatitude() + rand1, arg0.getLongitude() - rand2)).radius(8));
+                        points += 1000; // 1000 points for each circle you overlap
+                        updatePoints(points);
+                    }
+
                 }
 
+
                 /** If Stop button Pressed */
+                //Reset Everything
                 if (buttonState == 0) {
                     mMap.clear();
                     distance = 0;
                     distanceText.setText(Double.toString(distance));
+                    listLocsToDraw.clear();
+                    dtemp = 0;
+                    ptemp = 0;
+                    ctemp = 0;
+                    points = 0;
+                    updatePoints(points);
                 }
+
+                /** Assign points on various distances */
+                if (distance > 0.02 && distance < 0.03 && ptemp == 0) {
+                    points += 100; //Add points when reaching 200m
+                    updatePoints(points);
+                    ptemp = 1;
+                }
+                if (distance > 0.5 && distance < 0.51 && ptemp == 1) {
+                    points += 500; //Add points when reaching 500m
+                    updatePoints(points);
+                    ptemp = 2;
+                }
+                if (distance > 1.0 && distance < 1.01 && ptemp == 2) {
+                    points += 1000; //Add points when reaching 1km
+                    updatePoints(points);
+                    ptemp = 3;
+                }
+                if (distance > 5.0 && distance < 5.01 && ptemp == 3) {
+                    points += 5000; //Add points when reaching 5km
+                    updatePoints(points);
+                    ptemp = 4;
+                }
+
+
+
 
             }
         });
@@ -208,7 +312,7 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
     /** Method to calculate Distance from path travelled */
     public double GetDistanceFromLatLonInm(double lat1, double lon1, double lat2, double lon2)
     {
-        final int R = 6371000;
+        final int R = 6371;
         // Radius of the earth in m
         double dLat = deg2rad(lat2 - lat1);
         // deg2rad below
@@ -232,6 +336,11 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
         value = value * factor;
         long tmp = Math.round(value);
         return (double) tmp / factor;
+    }
+
+    /** Method to update Point Text */
+    public void updatePoints(int points) {
+        pointsText.setText(Integer.toString(points));
     }
 
 }
