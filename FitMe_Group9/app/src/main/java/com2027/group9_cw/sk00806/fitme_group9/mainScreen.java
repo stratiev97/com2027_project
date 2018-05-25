@@ -297,6 +297,8 @@ public class mainScreen extends AppCompatActivity {
         });
 
         final FirebaseUser currentUser = mAuth.getCurrentUser();
+        Log.e("help", Boolean.toString(currentUser==null));
+        Log.e("help", currentUser.getEmail());
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -326,14 +328,15 @@ public class mainScreen extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 String email = stripEmail(currentUser.getEmail());
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     user = ds.child(email).getValue(User.class);
-                    Log.e("wwaa",ds.child(email).getValue(User.class).getEmail());
-                    Log.e("wwaa2",user.getEmail());
-                    Log.e("wwaa2",Double.toString(user.getWeight()));
                     updateViews();
 
+                }
+                if(user==null){
+                    user = createUser(currentUser);
                 }
             }
 
@@ -342,7 +345,9 @@ public class mainScreen extends AppCompatActivity {
 
             }
         });
-
+        if(this.user==null){
+            this.user = createUser(currentUser);
+        }
         updateViews();
 
     }
