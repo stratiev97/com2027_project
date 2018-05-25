@@ -35,6 +35,8 @@ public class User implements Parcelable{
     private ArrayList<CalorieDay> calorieDays;
     private ArrayList<WeightDay> weightDays;
     private ArrayList<ProgressPicture> images;
+    private ArrayList<ActivityDay> activityDays;
+
     private DatabaseReference databaseRef;
 
 
@@ -49,6 +51,8 @@ public class User implements Parcelable{
         this.calorieDays = new ArrayList<>();
         this.weightDays = new ArrayList<>();
         this.images = new ArrayList<>();
+        this.activityDays = new ArrayList<>();
+
         this.displayName = displayName;
 
         //Should call the DB for messing with.
@@ -84,7 +88,7 @@ public class User implements Parcelable{
         calorieDays = in.createTypedArrayList(CalorieDay.CREATOR);
         weightDays = in.createTypedArrayList(WeightDay.CREATOR);
         images = in.readArrayList(String.class.getClassLoader());
-
+        activityDays = in.createTypedArrayList(ActivityDay.CREATOR);
 
     }
 
@@ -227,9 +231,30 @@ public class User implements Parcelable{
             this.calorieDays.add(day);
         }
     }
+    public void addActivityDay(ActivityDay day){
+        Boolean set = false;
+        if(activityDays.size()>0){
+            for(int i=0; i<this.activityDays.size(); i++){
+                if(this.activityDays.get(i).getDate().equals(day.getDate())){
+                    this.activityDays.set(i,day);
+                    set = true;
+                }
+            }
+        }
 
+        if(!set){
+            this.activityDays.add(day);
+        }
+    }
     public double getAvgDistanceTravelled(){
-        return 0;
+        double total = 0;
+        if(activityDays.size()>0){
+            for(int i = 0; i<activityDays.size(); i++){
+                total+= activityDays.get(i).getTotaldistance();
+            }
+            total/=activityDays.size();
+        }
+        return total;
     }
 
     public WeightDay getWeightDay(String date){
@@ -249,7 +274,14 @@ public class User implements Parcelable{
         }
         return new CalorieDay();
     }
-
+    public ActivityDay getActivityDay(String date){
+        for(ActivityDay day: activityDays){
+            if(day.getDate().equals(date)){
+                return day;
+            }
+        }
+        return new ActivityDay();
+    }
     public ArrayList<WeightDay> getWeightDays(){
         return new ArrayList<>(weightDays);
     }
@@ -262,10 +294,35 @@ public class User implements Parcelable{
         return 0;
     }
 
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public void setWeightDays(ArrayList<WeightDay> weightDays) {
+        this.weightDays = weightDays;
+    }
+
+    public ArrayList<ActivityDay> getActivityDays() {
+        return activityDays;
+    }
+
+    public void setActivityDays(ArrayList<ActivityDay> activityDays) {
+        this.activityDays = activityDays;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
         dest.writeString(this.displayName);
+
         dest.writeString(this.id);
         dest.writeInt(this.breakfastCalorieGoal);
         dest.writeInt(this.lunchCalorieGoal);
@@ -276,6 +333,7 @@ public class User implements Parcelable{
         dest.writeList(weightDays);
         dest.writeList(calorieDays);
         dest.writeList(images);
+        dest.writeList(activityDays);
 
 
     }

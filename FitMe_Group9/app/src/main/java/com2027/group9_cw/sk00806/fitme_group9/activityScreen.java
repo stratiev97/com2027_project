@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -60,6 +61,7 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
     Location initial = null;
     Location lastlocation = null;
     ArrayList<Location> listLocsToDraw = new ArrayList<Location>();
+    ActivityDay activityDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,25 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
         actionBar.hide();
         //Set Content View
         setContentView(R.layout.activityscreen);
+
+
+        Intent intent = getIntent();
+        this.activityDay = intent.getParcelableExtra("ActivityDays");
+
+        if(activityDay==null){
+            if(savedInstanceState!=null) {
+                if (savedInstanceState.containsKey("ActivityDays")) {
+                    this.activityDay = savedInstanceState.getParcelable("ActivityDays");
+                }
+            }
+        }
+        if(this.activityDay == null) {
+            this.activityDay = new ActivityDay();
+        }
+
+
+
+
 
         /** Start Button initialisation */
         startButton = (ImageButton) findViewById(R.id.start_button);
@@ -267,6 +288,7 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
                 /** If Stop button Pressed */
                 //Reset Everything
                 if (buttonState == 0) {
+                    activityDay.addDistance(distance);
                     mMap.clear();
                     distance = 0;
                     distanceText.setText(Double.toString(distance));
@@ -398,5 +420,21 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
     public void updatePace(double pace) {
         round(pace, 2);
         paceText.setText(Double.toString(pace));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("ActivityDays", activityDay);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(activityScreen.this, mainScreen.class);
+        Log.e("woah", Double.toString(activityDay.getTotaldistance()));
+        intent.putExtra("ActivityDays",activityDay);
+        setResult(RESULT_OK, intent);
+        startActivity(intent);
+
     }
 }

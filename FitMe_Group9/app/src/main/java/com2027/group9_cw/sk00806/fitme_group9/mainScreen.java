@@ -48,11 +48,15 @@ public class mainScreen extends AppCompatActivity {
     Button resetData;
     Button logoutButton;
     FirebaseAuth mAuth;
+    Button progressButton;
     GoogleApiClient mGoogleApiClient;
 
     final int CALORIE_CODE = 1;
     final int WEIGHT_CODE = 2;
     final int OVERVIEW_CODE = 3;
+    final int PICTURES_CODE = 4;
+    final int ACTIVITY_CODE = 5;
+
 
 
     @Override
@@ -64,12 +68,17 @@ public class mainScreen extends AppCompatActivity {
         //Set Content View
         setContentView(R.layout.mainscreen);
 
+        Intent mainscreen = getIntent();
+
+
+
         /** Calories, Weight and Activity Button initialisations */
         caloriesButton = (ImageButton) findViewById(R.id.calories_button);
         weightButton = (ImageButton) findViewById(R.id.weight_button);
         activityButton = (ImageButton) findViewById(R.id.activity_button);
         globalButton = (ImageButton) findViewById(R.id.global_button);
         overviewButton = (ImageButton) findViewById(R.id.overview_button);
+        progressButton = (Button) findViewById(R.id.progress_pictures_button);
 
         targetWeight = (TextView) findViewById(R.id.mainscreen_targetweight);
         distanceTravelled = (TextView) findViewById(R.id.mainscreen_distancetravelled);
@@ -78,6 +87,7 @@ public class mainScreen extends AppCompatActivity {
         currentWeight = (TextView) findViewById(R.id.mainscreen_currentweight);
         dummyData = (Button) findViewById(R.id.mainscreen_dummydata);
         resetData = (Button) findViewById(R.id.mainscreen_reset);
+
 
         mAuth = FirebaseAuth.getInstance();
         String authUsername = this.mAuth.getCurrentUser().getDisplayName().toString();
@@ -94,6 +104,14 @@ public class mainScreen extends AppCompatActivity {
 
         }
 
+        if(mainscreen!=null){
+            ActivityDay activityDay = mainscreen.getParcelableExtra("ActivityDays");
+            if(activityDay!=null){
+                this.user.addActivityDay(activityDay);
+                Log.e("a22a" , Double.toString(activityDay.getTotaldistance()));
+
+            }
+        }
         /** Calories, Weight and Activity Button Change of Image when touched */
         // Calories Button Listener
         caloriesButton.setOnTouchListener(new View.OnTouchListener() {
@@ -153,7 +171,13 @@ public class mainScreen extends AppCompatActivity {
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP){        // If Activity button is released
                     activityButton.setImageResource(R.drawable.activity);           // Image Resource is set to 'activity'
-                    startActivity(new Intent(mainScreen.this, activityScreen.class)); //Activities Activity Starts
+
+                    Intent activityIntent = new Intent(mainScreen.this, activityScreen.class);
+                    String currentDate = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+                    activityIntent.putExtra("ActivityDays", user.getActivityDay(currentDate));
+
+                    startActivityForResult(activityIntent, ACTIVITY_CODE);
+                    startActivity(activityIntent); //Activities Activity Starts
                     return true;
                 }
                 return false;
@@ -189,7 +213,6 @@ public class mainScreen extends AppCompatActivity {
                     overviewButton.setImageResource(R.drawable.overview);           // Image Resource is set to 'overview'
                     Intent overviewIntent = new Intent(mainScreen.this, overviewScreen.class);
                     overviewIntent.putParcelableArrayListExtra("WeightDays", user.getWeightDays());
-                    Log.e("waa", Integer.toString(user.getWeightDays().size()));
                     overviewIntent.putParcelableArrayListExtra("CalorieDays", user.getCalorieDays());
                     overviewIntent.putParcelableArrayListExtra("Images", user.getImages());
                     startActivityForResult(overviewIntent, OVERVIEW_CODE);
@@ -203,6 +226,17 @@ public class mainScreen extends AppCompatActivity {
                 return false;
             }
         });
+
+        progressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent overviewIntent = new Intent(mainScreen.this, progresspicScreen.class);
+                overviewIntent.putParcelableArrayListExtra("Pictures", user.getImages());
+                startActivityForResult(overviewIntent, PICTURES_CODE);
+
+            }
+        });
+
         dummyData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,7 +340,26 @@ public class mainScreen extends AppCompatActivity {
                 }
                 this.user.setTargetWeight(targetWeight);
             }
+        }else if(requestCode==PICTURES_CODE){
+            if(resultCode==RESULT_OK){
+                ArrayList<ProgressPicture> pics = data.getParcelableArrayListExtra("Pictures");
+
+                if(pics!=null){
+                    this.user.setImages(pics);
+                }
+            }
+        }else if(requestCode==ACTIVITY_CODE){
+            if(resultCode==RESULT_OK){
+                ActivityDay activityDay = data.getParcelableExtra("ActivityDays");
+                if(activityDay!=null){
+                    this.user.addActivityDay(activityDay);
+                    Log.e("aa" , Double.toString(activityDay.getTotaldistance()));
+
+                }
+            }
         }
+
+
         updateViews();
 
     }
@@ -318,8 +371,10 @@ public class mainScreen extends AppCompatActivity {
             currentWeight.setText("Current Weight: "+ Double.toString(user.getWeight()) + "kg");
             targetWeight.setText("Target Weight: " + Double.toString(user.getTargetWeight()) +"kg");
             weightLost.setText("Weight Lost: "+formatter.format(user.getWeightLost())+"kg");
-            distanceTravelled.setText("Avg Distance Travelled: " + Double.toString(user.getAvgDistanceTravelled())+"m");
+            distanceTravelled.setText("Avg Distance Travelled: " + formatter.format(user.getAvgDistanceTravelled())+"km");
+
             avgDailyCalories.setText("Avg Daily Calories: "+ formatter.format(user.getAvgDailyCalories()));
+
 
         }
     }

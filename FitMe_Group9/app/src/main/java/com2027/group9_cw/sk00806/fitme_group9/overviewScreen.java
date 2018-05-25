@@ -22,10 +22,6 @@ public class overviewScreen extends AppCompatActivity{
 
     private ArrayList<WeightDay> weightDays;
     private ArrayList<CalorieDay> calorieDays;
-    private ArrayList<ProgressPicture> images;
-
-    Button progresspicButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +34,8 @@ public class overviewScreen extends AppCompatActivity{
 
         this.calorieDays = intent.getParcelableArrayListExtra("CalorieDays");
         this.weightDays = intent.getParcelableArrayListExtra("WeightDays");
-        this.images = intent.getParcelableArrayListExtra("Images");
 
-        progresspicButton = (Button) findViewById(R.id.overview_screen_progresspicbutton);
-        progresspicButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent weightIntent = new Intent(overviewScreen.this, progresspicScreen.class);
-                weightIntent.putParcelableArrayListExtra("Images",images);
 
-                startActivityForResult(weightIntent, GALLERY_CODE);
-            }
-        });
 
 
     }

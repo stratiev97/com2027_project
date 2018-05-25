@@ -333,7 +333,6 @@ public class calorieScreen extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent();
-        System.out.println("um " + calorieDay.getBreakfast_goal());
         intent.putExtra("CalorieDay",calorieDay);
 
         setResult(RESULT_OK, intent);

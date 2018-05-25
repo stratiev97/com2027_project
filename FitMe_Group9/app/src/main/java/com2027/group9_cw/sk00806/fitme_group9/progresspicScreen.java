@@ -54,19 +54,21 @@ public class progresspicScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progresspic_screen);
 
-        if(savedInstanceState!=null) {
-            if (savedInstanceState.containsKey("Pictures")) {
-                this.pictures = savedInstanceState.getParcelableArrayList("Pictures");
-            }else{
+        Intent intent = getIntent();
+        this.pictures = intent.getParcelableArrayListExtra("Pictures");
+
+        if(pictures==null){
+            if(savedInstanceState!=null) {
+                if (savedInstanceState.containsKey("Pictures")) {
+                    this.pictures = savedInstanceState.getParcelableArrayList("Pictures");
+                }
             }
+
         }
 
-        if(this.pictures == null){
+        if(this.pictures == null) {
             this.pictures = new ArrayList<>();
-            Log.e("URI","grr");
-
-        }else{
-
+            Log.e("URI", "grr");
         }
 
         context = getBaseContext();
@@ -172,4 +174,13 @@ public class progresspicScreen extends AppCompatActivity {
         outState.putParcelableArrayList("Pictures", pictures);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("Pictures",pictures);
+        setResult(RESULT_OK, intent);
+
+        super.onBackPressed();
+
+    }
 }
