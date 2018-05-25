@@ -62,6 +62,7 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
     Location lastlocation = null;
     ArrayList<Location> listLocsToDraw = new ArrayList<Location>();
     ActivityDay activityDay;
+    SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,7 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
         paceText = (TextView) findViewById(R.id.speedText);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -429,12 +430,28 @@ public class activityScreen extends AppCompatActivity implements OnMapReadyCallb
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState.containsKey("ActivityDays")){
+            activityDay = savedInstanceState.getParcelable("ActivityDays");
+
+        }
+        if(activityDay==null){
+            activityDay = new ActivityDay();
+        }
+    }
+
+    @Override
     public void onBackPressed() {
-        Intent intent = new Intent(activityScreen.this, mainScreen.class);
-        Log.e("woah", Double.toString(activityDay.getTotaldistance()));
-        intent.putExtra("ActivityDays",activityDay);
-        setResult(RESULT_OK, intent);
-        startActivity(intent);
+
+            Intent intent = new Intent();
+            Log.e("woah", Double.toString(activityDay.getTotaldistance()));
+            intent.putExtra("ActivityDays",activityDay);
+            setResult(RESULT_OK, intent);
+            super.onBackPressed();
+
+
+
 
     }
 }

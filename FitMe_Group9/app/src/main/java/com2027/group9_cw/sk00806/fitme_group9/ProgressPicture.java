@@ -7,6 +7,11 @@ public class ProgressPicture implements Parcelable{
     String url;
     String imageTitle;
 
+    public ProgressPicture(){
+        this.url = "";
+        this.imageTitle = "";
+    }
+
     public ProgressPicture(String url, String imageTitle){
         this.url = url;
         this.imageTitle = imageTitle;

@@ -3,7 +3,9 @@ package com2027.group9_cw.sk00806.fitme_group9;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
+import android.util.Log;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,9 +25,7 @@ import static java.lang.Boolean.TRUE;
  */
 
 public class User implements Parcelable{
-
-    private String displayName;
-    private String id;
+    private String email;
     private int breakfastCalorieGoal;
     private int lunchCalorieGoal;
     private int dinnerCalorieGoal;
@@ -37,12 +37,10 @@ public class User implements Parcelable{
     private ArrayList<ProgressPicture> images;
     private ArrayList<ActivityDay> activityDays;
 
-    private DatabaseReference databaseRef;
 
-
-    public User(String displayName){
+    public User(String email){
+        this.email = email;
         targetWeight=0;
-        this.id=null;
         this.breakfastCalorieGoal=0;
         this.lunchCalorieGoal=0;
         this.dinnerCalorieGoal=0;
@@ -53,32 +51,29 @@ public class User implements Parcelable{
         this.images = new ArrayList<>();
         this.activityDays = new ArrayList<>();
 
-        this.displayName = displayName;
-
-        //Should call the DB for messing with.
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        this.databaseRef = db.getReference();
 
 
-        //Going to set this to check if it exists but can't figure out why
-        if(null == null) {
-            //The TRUE result is going to in the future read from the database and populate it with those values. Right now it's set to create this for debugging.
-            String key = databaseRef.child("USER").push().getKey();
-            this.databaseRef = databaseRef.child("USER").child(key);
-            this.id = key;
-            databaseRef.child("UserName").setValue(this.displayName);
+    }
+    public User(){
+        this.email = "";
+        targetWeight=0;
+        this.breakfastCalorieGoal=0;
+        this.lunchCalorieGoal=0;
+        this.dinnerCalorieGoal=0;
+        this.snackCalorieGoal=0;
+        this.weight=0;
+        this.calorieDays = new ArrayList<>();
+        this.weightDays = new ArrayList<>();
+        this.images = new ArrayList<>();
+        this.activityDays = new ArrayList<>();
 
-        } else{
-            //Fill from the database somehow.
 
-        }
 
     }
 
 
     protected User(Parcel in) {
-        displayName = in.readString();
-        id = in.readString();
+        email = in.readString();
         breakfastCalorieGoal = in.readInt();
         lunchCalorieGoal = in.readInt();
         dinnerCalorieGoal = in.readInt();
@@ -104,10 +99,6 @@ public class User implements Parcelable{
         }
     };
 
-    public String getId() {
-        return id;
-    }
-
     public void setId(String id) {
         //this.id = id;
         //I'm making this useless because it would mess everything up.
@@ -121,7 +112,6 @@ public class User implements Parcelable{
 
     public void setBreakfastCalorieGoal(int breakfastCalorieGoal) {
         this.breakfastCalorieGoal = breakfastCalorieGoal;
-        databaseRef.child("Goals").child("BreakfastCalorieGoal").setValue(Integer.toString(breakfastCalorieGoal));
     }
 
     public double getWeightLost(){
@@ -294,15 +284,8 @@ public class User implements Parcelable{
         return 0;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public void setWeight(double weight) {
+    public void setWeight2(double weight) {
         this.weight = weight;
     }
 
@@ -318,12 +301,17 @@ public class User implements Parcelable{
         this.activityDays = activityDays;
     }
 
+    public String getEmail() {
+        return email.replaceAll("[.#$]", "");
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeString(this.displayName);
-
-        dest.writeString(this.id);
+        dest.writeString(this.email);
         dest.writeInt(this.breakfastCalorieGoal);
         dest.writeInt(this.lunchCalorieGoal);
         dest.writeInt(this.dinnerCalorieGoal);

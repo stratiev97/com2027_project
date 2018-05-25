@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,13 +23,21 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 public class mainScreen extends AppCompatActivity {
@@ -51,6 +60,9 @@ public class mainScreen extends AppCompatActivity {
     Button progressButton;
     GoogleApiClient mGoogleApiClient;
 
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
     final int CALORIE_CODE = 1;
     final int WEIGHT_CODE = 2;
     final int OVERVIEW_CODE = 3;
@@ -67,9 +79,7 @@ public class mainScreen extends AppCompatActivity {
         actionBar.hide();
         //Set Content View
         setContentView(R.layout.mainscreen);
-
         Intent mainscreen = getIntent();
-
 
 
         /** Calories, Weight and Activity Button initialisations */
@@ -93,25 +103,6 @@ public class mainScreen extends AppCompatActivity {
         String authUsername = this.mAuth.getCurrentUser().getDisplayName().toString();
         final String username = authUsername;
 
-        if(savedInstanceState!=null) {
-            if (savedInstanceState.containsKey("User")) {
-                this.user = savedInstanceState.getParcelable("User");
-            }else{
-            }
-        }
-        if(this.user==null){
-            this.user = new User(username);
-
-        }
-
-        if(mainscreen!=null){
-            ActivityDay activityDay = mainscreen.getParcelableExtra("ActivityDays");
-            if(activityDay!=null){
-                this.user.addActivityDay(activityDay);
-                Log.e("a22a" , Double.toString(activityDay.getTotaldistance()));
-
-            }
-        }
         /** Calories, Weight and Activity Button Change of Image when touched */
         // Calories Button Listener
         caloriesButton.setOnTouchListener(new View.OnTouchListener() {
@@ -177,7 +168,6 @@ public class mainScreen extends AppCompatActivity {
                     activityIntent.putExtra("ActivityDays", user.getActivityDay(currentDate));
 
                     startActivityForResult(activityIntent, ACTIVITY_CODE);
-                    startActivity(activityIntent); //Activities Activity Starts
                     return true;
                 }
                 return false;
@@ -263,32 +253,15 @@ public class mainScreen extends AppCompatActivity {
                 user.addCalorieDay(new CalorieDay(232,342,1300,222,200,400,1000,400,"20180421"));
                 user.addCalorieDay(new CalorieDay(444,324,200,333,200,400,1000,400,"20180422"));
                 user.addCalorieDay(new CalorieDay(123,311,1200,444,200,400,1000,400,"20180423"));
-
+                updateUser(user);
                 updateViews();
 
             }
         });
 
-        resetData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                user = new User(username);
-                updateViews();
-
-            }
-        });
-        updateViews();
 
 
-        /** On Logout Click Initialisation and  Listener */
-        mAuth = FirebaseAuth.getInstance();
-        logoutButton = (Button) findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signOut(); // Signs out, redirects to log in screen
-            }
-        });
+
 
         /** Configure sign-in to request the user's ID, email address and basic profile.
          *  ID and basic profile are included in DEFAULT_SIGN_IN
@@ -308,8 +281,75 @@ public class mainScreen extends AppCompatActivity {
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-    };
 
+
+
+
+
+        /** On Logout Click Initialisation and  Listener */
+        mAuth = FirebaseAuth.getInstance();
+        logoutButton = (Button) findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut(); // Signs out, redirects to log in screen
+            }
+        });
+
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
+        resetData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user = createUser(currentUser);
+                updateUser(user);
+                updateViews();
+
+            }
+        });
+
+
+        if(savedInstanceState!=null) {
+            if (savedInstanceState.containsKey("User")) {
+                this.user = savedInstanceState.getParcelable("User");
+            }else{
+            }
+        }
+        if(this.user==null){
+            this.user = createUser(currentUser);
+        }
+
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String email = stripEmail(currentUser.getEmail());
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    user = ds.child(email).getValue(User.class);
+                    Log.e("wwaa",ds.child(email).getValue(User.class).getEmail());
+                    Log.e("wwaa2",user.getEmail());
+                    Log.e("wwaa2",Double.toString(user.getWeight()));
+                    updateViews();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        updateViews();
+
+    }
+
+    public String stripEmail(String email) {
+        return email.replaceAll("[.#$]", "");
+    }
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
@@ -329,6 +369,8 @@ public class mainScreen extends AppCompatActivity {
                     this.user.setLunchCalorieGoal(calDay.getLunch_goal());
                     this.user.setDinnerCalorieGoal(calDay.getDinner_goal());
                     this.user.setSnackCalorieGoal(calDay.getSnack_goal());
+                    updateUser(user);
+
                 }
             }
         }else if(requestCode==WEIGHT_CODE){
@@ -339,6 +381,7 @@ public class mainScreen extends AppCompatActivity {
                     this.user.addWeightDay(weightDay);
                 }
                 this.user.setTargetWeight(targetWeight);
+                updateUser(user);
             }
         }else if(requestCode==PICTURES_CODE){
             if(resultCode==RESULT_OK){
@@ -346,7 +389,9 @@ public class mainScreen extends AppCompatActivity {
 
                 if(pics!=null){
                     this.user.setImages(pics);
+                    updateUser(user);
                 }
+
             }
         }else if(requestCode==ACTIVITY_CODE){
             if(resultCode==RESULT_OK){
@@ -354,8 +399,11 @@ public class mainScreen extends AppCompatActivity {
                 if(activityDay!=null){
                     this.user.addActivityDay(activityDay);
                     Log.e("aa" , Double.toString(activityDay.getTotaldistance()));
+                    updateUser(user);
+
 
                 }
+
             }
         }
 
@@ -371,7 +419,7 @@ public class mainScreen extends AppCompatActivity {
             currentWeight.setText("Current Weight: "+ Double.toString(user.getWeight()) + "kg");
             targetWeight.setText("Target Weight: " + Double.toString(user.getTargetWeight()) +"kg");
             weightLost.setText("Weight Lost: "+formatter.format(user.getWeightLost())+"kg");
-            distanceTravelled.setText("Avg Distance Travelled: " + formatter.format(user.getAvgDistanceTravelled())+"km");
+            distanceTravelled.setText("Avg Distance Travelled: " + formatter.format(user.getAvgDistanceTravelled()*1000)+"m");
 
             avgDailyCalories.setText("Avg Daily Calories: "+ formatter.format(user.getAvgDailyCalories()));
 
@@ -394,6 +442,24 @@ public class mainScreen extends AppCompatActivity {
                         startActivity(new Intent(mainScreen.this, login.class));
                     }
                 });
+    }
+
+    private User createUser(FirebaseUser fbUser){
+        User user = new User(fbUser.getEmail());
+        return user;
+
+    }
+
+    private void updateUser(User user){
+        databaseReference.child("users").child(user.getEmail()).setValue(user);
+
+
+    }
+
+    private User readUser(){
+
+
+        return null;
     }
 
 }
