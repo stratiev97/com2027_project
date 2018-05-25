@@ -2,6 +2,7 @@ package com2027.group9_cw.sk00806.fitme_group9;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.ContactsContract;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,12 +18,14 @@ import static java.lang.Boolean.TRUE;
 
 /**
  * Created by christopher on 23/04/2018.
+ *
+ * Heavily modded by Lukas
  */
 
 public class User implements Parcelable{
 
     private String displayName;
-    private int id;
+    private String id;
     private int breakfastCalorieGoal;
     private int lunchCalorieGoal;
     private int dinnerCalorieGoal;
@@ -37,7 +40,7 @@ public class User implements Parcelable{
 
     public User(String displayName){
         targetWeight=0;
-        this.id=1;
+        this.id=null;
         this.breakfastCalorieGoal=0;
         this.lunchCalorieGoal=0;
         this.dinnerCalorieGoal=0;
@@ -49,32 +52,21 @@ public class User implements Parcelable{
         this.displayName = displayName;
 
         //Should call the DB for messing with.
-        this.databaseRef = FirebaseDatabase.getInstance().getReference();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        this.databaseRef = db.getReference();
 
-        //Check if DB exists. In the future. I've been poking at similar things since 4am and this one seems most likely to wrok, but right now I need sleep.
-        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //if dataSnapshot.
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
         //Going to set this to check if it exists but can't figure out why
         if(null == null) {
             //The TRUE result is going to in the future read from the database and populate it with those values. Right now it's set to create this for debugging.
-            databaseRef.child("Database").child("User").child("UserName").setValue(this.displayName);
-            this.databaseRef = databaseRef.child("Database").child("User").child("UserName").child(this.displayName);
-            databaseRef.child("Blah").setValue("PREVIOUS DATA FOUND");
+            String key = databaseRef.child("USER").push().getKey();
+            this.databaseRef = databaseRef.child("USER").child(key);
+            this.id = key;
+            databaseRef.child("UserName").setValue(this.displayName);
 
         } else{
-            //THE BELOW CODE SHOULD BE RIGGED UP TO BE CALLED ONLY IF IT DOESNT ALREADY EXIST.
-            databaseRef.child("Database").child("User").child("UserName").setValue(this.displayName);
-            this.databaseRef = databaseRef.child("Database").child("User").child("UserName").child(this.displayName);
-            databaseRef.child("Blah").setValue("PREVIOUS DATA NOT FOUND");
+            //Fill from the database somehow.
+
         }
 
     }
@@ -82,7 +74,7 @@ public class User implements Parcelable{
 
     protected User(Parcel in) {
         displayName = in.readString();
-        id = in.readInt();
+        id = in.readString();
         breakfastCalorieGoal = in.readInt();
         lunchCalorieGoal = in.readInt();
         dinnerCalorieGoal = in.readInt();
@@ -108,13 +100,14 @@ public class User implements Parcelable{
         }
     };
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-        databaseRef.child("Database").child("User").child("UserName").child("ID").setValue(Integer.toString(id));
+    public void setId(String id) {
+        //this.id = id;
+        //I'm making this useless because it would mess everything up.
+
 
     }
 
@@ -273,7 +266,7 @@ public class User implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
 
         dest.writeString(this.displayName);
-        dest.writeInt(this.id);
+        dest.writeString(this.id);
         dest.writeInt(this.breakfastCalorieGoal);
         dest.writeInt(this.lunchCalorieGoal);
         dest.writeInt(this.dinnerCalorieGoal);
