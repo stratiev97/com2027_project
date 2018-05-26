@@ -86,7 +86,6 @@ public class mainScreen extends AppCompatActivity {
         caloriesButton = (ImageButton) findViewById(R.id.calories_button);
         weightButton = (ImageButton) findViewById(R.id.weight_button);
         activityButton = (ImageButton) findViewById(R.id.activity_button);
-        globalButton = (ImageButton) findViewById(R.id.global_button);
         overviewButton = (ImageButton) findViewById(R.id.overview_button);
         progressButton = (Button) findViewById(R.id.progress_pictures_button);
 
@@ -174,22 +173,7 @@ public class mainScreen extends AppCompatActivity {
             }
         });
 
-        // Global Button Listener
-        globalButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN){      // If Global Button is pressed
-                    globalButton.setImageResource(R.drawable.global_pressed);   // Image Resource is set to 'global_pressed'
-                    return true;
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP){        // If Global button is released
-                    globalButton.setImageResource(R.drawable.global);           // Image Resource is set to 'global'
-                    startActivity(new Intent(mainScreen.this, globalScreen.class)); //Global Activity Starts
-                    return true;
-                }
-                return false;
-            }
-        });
+
 
         // Overview Button Listener
         overviewButton.setOnTouchListener(new View.OnTouchListener() {
@@ -204,7 +188,7 @@ public class mainScreen extends AppCompatActivity {
                     Intent overviewIntent = new Intent(mainScreen.this, overviewScreen.class);
                     overviewIntent.putParcelableArrayListExtra("WeightDays", user.getWeightDays());
                     overviewIntent.putParcelableArrayListExtra("CalorieDays", user.getCalorieDays());
-                    overviewIntent.putParcelableArrayListExtra("Images", user.getImages());
+                    overviewIntent.putParcelableArrayListExtra("ActivityDays", user.getActivityDays());
                     startActivityForResult(overviewIntent, OVERVIEW_CODE);
 
 
@@ -230,15 +214,15 @@ public class mainScreen extends AppCompatActivity {
         dummyData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.addWeightDay(new WeightDay(80,"20180415"));
-                user.addWeightDay(new WeightDay(77.8,"20180416"));
-                user.addWeightDay(new WeightDay(77.6,"20180417"));
-                user.addWeightDay(new WeightDay(77.7,"20180418"));
-                user.addWeightDay(new WeightDay(77.7,"20180419"));
-                user.addWeightDay(new WeightDay(77.6,"20180420"));
-                user.addWeightDay(new WeightDay(77.4,"20180421"));
-                user.addWeightDay(new WeightDay(77.3,"20180422"));
-                user.addWeightDay(new WeightDay(77.2,"20180423"));
+                user.addWeightDay(new WeightDay(80,"20180515"));
+                user.addWeightDay(new WeightDay(77.8,"20180516"));
+                user.addWeightDay(new WeightDay(77.6,"20180517"));
+                user.addWeightDay(new WeightDay(77.7,"20180518"));
+                user.addWeightDay(new WeightDay(77.7,"20180519"));
+                user.addWeightDay(new WeightDay(77.6,"20180520"));
+                user.addWeightDay(new WeightDay(77.4,"20180521"));
+                user.addWeightDay(new WeightDay(77.3,"20180522"));
+                user.addWeightDay(new WeightDay(77.2,"20180523"));
                 user.setTargetWeight(75);
                 user.setBreakfastCalorieGoal(200);
                 user.setLunchCalorieGoal(400);
@@ -253,6 +237,13 @@ public class mainScreen extends AppCompatActivity {
                 user.addCalorieDay(new CalorieDay(232,342,1300,222,200,400,1000,400,"20180421"));
                 user.addCalorieDay(new CalorieDay(444,324,200,333,200,400,1000,400,"20180422"));
                 user.addCalorieDay(new CalorieDay(123,311,1200,444,200,400,1000,400,"20180423"));
+                user.addActivityDay(new ActivityDay("20180515", 15.0));
+                user.addActivityDay(new ActivityDay("20180516", 17.0));
+                user.addActivityDay(new ActivityDay("20180517", 18.0));
+                user.addActivityDay(new ActivityDay("20180519", 15.0));
+                user.addActivityDay(new ActivityDay("20180520", 11.0));
+                user.addActivityDay(new ActivityDay("20180521", 9.0));
+
                 updateUser(user);
                 updateViews();
 

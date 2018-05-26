@@ -60,6 +60,8 @@ public class WeightDay implements Parcelable,Comparable {
     }
 
 
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -79,11 +81,9 @@ public class WeightDay implements Parcelable,Comparable {
         dest.writeString(date);
     }
 
-    @Override
     public int compareTo(@NonNull Object o) {
-        int date1 = Integer.parseInt(date);
-        WeightDay weightDay = (WeightDay) o;
-        int date2 = Integer.parseInt(weightDay.getDate());
+        int date1 = Integer.parseInt(this.date);
+        int date2 = Integer.parseInt(((WeightDay)o).getDate());
         return date1-date2;
     }
 }

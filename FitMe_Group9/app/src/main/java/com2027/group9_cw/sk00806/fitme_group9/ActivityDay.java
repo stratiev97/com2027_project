@@ -2,6 +2,7 @@ package com2027.group9_cw.sk00806.fitme_group9;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,7 +11,7 @@ import java.util.Calendar;
  * Created by christopher on 23/04/2018.
  */
 
-public class ActivityDay implements Parcelable {
+public class ActivityDay implements Parcelable, Comparable {
 
     private double totaldistance;
     private String date;
@@ -23,6 +24,10 @@ public class ActivityDay implements Parcelable {
     public ActivityDay(Parcel in){
         this.totaldistance = in.readDouble();
         this.date = in.readString();
+    }
+    public ActivityDay(String date, Double distance){
+        this.date=date;
+        this.totaldistance = distance;
     }
 
 
@@ -69,5 +74,12 @@ public class ActivityDay implements Parcelable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        int date1 = Integer.parseInt(this.date);
+        int date2 = Integer.parseInt(((ActivityDay)o).getDate());
+        return date1-date2;
     }
 }

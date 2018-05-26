@@ -2,6 +2,7 @@ package com2027.group9_cw.sk00806.fitme_group9;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,7 +12,7 @@ import java.util.Date;
  * Created by christopher on 23/04/2018.
  */
 
-public class CalorieDay implements Parcelable {
+public class CalorieDay implements Parcelable, Comparable {
 
     private int breakfast_calories;
     private int lunch_calories;
@@ -187,5 +188,12 @@ public class CalorieDay implements Parcelable {
         dest.writeInt(this.snack_goal);
 
         dest.writeString(date);
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        int date1 = Integer.parseInt(this.date);
+        int date2 = Integer.parseInt(((CalorieDay)o).getDate());
+        return date1-date2;
     }
 }

@@ -72,6 +72,7 @@ public class User implements Parcelable{
     }
 
 
+
     protected User(Parcel in) {
         email = in.readString();
         breakfastCalorieGoal = in.readInt();
