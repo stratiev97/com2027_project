@@ -25,6 +25,7 @@ import static java.lang.Boolean.TRUE;
  */
 
 public class User implements Parcelable{
+    private int points;
     private String email;
     private int breakfastCalorieGoal;
     private int lunchCalorieGoal;
@@ -39,6 +40,7 @@ public class User implements Parcelable{
 
 
     public User(String email){
+        this.points = 0;
         this.email = email;
         targetWeight=0;
         this.breakfastCalorieGoal=0;
@@ -55,6 +57,7 @@ public class User implements Parcelable{
 
     }
     public User(){
+        this.points = 0;
         this.email = "";
         targetWeight=0;
         this.breakfastCalorieGoal=0;
@@ -74,6 +77,7 @@ public class User implements Parcelable{
 
 
     protected User(Parcel in) {
+        points = in.readInt();
         email = in.readString();
         breakfastCalorieGoal = in.readInt();
         lunchCalorieGoal = in.readInt();
@@ -237,8 +241,18 @@ public class User implements Parcelable{
             this.activityDays.add(day);
         }
     }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
     public double getAvgDistanceTravelled(){
         double total = 0;
+
         if(activityDays.size()>0){
             for(int i = 0; i<activityDays.size(); i++){
                 total+= activityDays.get(i).getTotaldistance();
@@ -312,6 +326,7 @@ public class User implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.points);
         dest.writeString(this.email);
         dest.writeInt(this.breakfastCalorieGoal);
         dest.writeInt(this.lunchCalorieGoal);

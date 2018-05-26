@@ -188,7 +188,7 @@
                         android:id="@+id/activity_button"
                         />
 
-  
+
                 </LinearLayout>
             </LinearLayout>
         <LinearLayout
