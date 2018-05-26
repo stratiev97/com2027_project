@@ -1,6 +1,8 @@
 package com2027.group9_cw.sk00806.fitme_group9;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
@@ -59,6 +61,7 @@ public class mainScreen extends AppCompatActivity {
     FirebaseAuth mAuth;
     Button progressButton;
     GoogleApiClient mGoogleApiClient;
+    private boolean online;
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -68,7 +71,7 @@ public class mainScreen extends AppCompatActivity {
     final int OVERVIEW_CODE = 3;
     final int PICTURES_CODE = 4;
     final int ACTIVITY_CODE = 5;
-
+    FirebaseUser currentUser;
 
 
     @Override
@@ -79,7 +82,6 @@ public class mainScreen extends AppCompatActivity {
         actionBar.hide();
         //Set Content View
         setContentView(R.layout.mainscreen);
-        Intent mainscreen = getIntent();
 
 
         /** Calories, Weight and Activity Button initialisations */
@@ -96,11 +98,27 @@ public class mainScreen extends AppCompatActivity {
         currentWeight = (TextView) findViewById(R.id.mainscreen_currentweight);
         dummyData = (Button) findViewById(R.id.mainscreen_dummydata);
         resetData = (Button) findViewById(R.id.mainscreen_reset);
+        Intent intent = getIntent();
+        online = intent.getBooleanExtra("Online", true);
 
+        if(online){
+            mAuth = FirebaseAuth.getInstance();
+            String authUsername = this.mAuth.getCurrentUser().getDisplayName().toString();
+            final String username = authUsername;
+        }
+        if(savedInstanceState!=null) {
+            this.user = savedInstanceState.getParcelable("User");
 
-        mAuth = FirebaseAuth.getInstance();
-        String authUsername = this.mAuth.getCurrentUser().getDisplayName().toString();
-        final String username = authUsername;
+            if (savedInstanceState.containsKey("Online")) {
+                this.online = savedInstanceState.getBoolean("Online", true);
+            }
+        }else{
+
+        }
+        if(this.user==null){
+            this.user = createUser(currentUser);
+
+        }
 
         /** Calories, Weight and Activity Button Change of Image when touched */
         // Calories Button Listener
@@ -197,7 +215,9 @@ public class mainScreen extends AppCompatActivity {
 
 
                 }
+
                 return false;
+
             }
         });
 
@@ -251,49 +271,6 @@ public class mainScreen extends AppCompatActivity {
         });
 
 
-
-
-
-        /** Configure sign-in to request the user's ID, email address and basic profile.
-         *  ID and basic profile are included in DEFAULT_SIGN_IN
-         */
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        /** Build a GoogleAPIclient with access to the Google Sign-In API and the options specified by gso. */
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* Fragment Activity */, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override //This is a Listener for a Failed Connection.
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        Toast.makeText(mainScreen.this, "Something Went Wrong", Toast.LENGTH_SHORT).show(); // This displays a toast on Connection Failed that reads "Something Went Wrong"
-                    }
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-
-
-
-
-        /** On Logout Click Initialisation and  Listener */
-        mAuth = FirebaseAuth.getInstance();
-        logoutButton = (Button) findViewById(R.id.logoutButton);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signOut(); // Signs out, redirects to log in screen
-            }
-        });
-
-        final FirebaseUser currentUser = mAuth.getCurrentUser();
-        Log.e("help", Boolean.toString(currentUser==null));
-        Log.e("help", currentUser.getEmail());
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-
         resetData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -305,37 +282,74 @@ public class mainScreen extends AppCompatActivity {
         });
 
 
-        if(savedInstanceState!=null) {
-            if (savedInstanceState.containsKey("User")) {
-                this.user = savedInstanceState.getParcelable("User");
-            }else{
-            }
-        }
-        if(this.user==null){
-            this.user = createUser(currentUser);
-        }
+
+        if(online){
+
+            /** Configure sign-in to request the user's ID, email address and basic profile.
+             *  ID and basic profile are included in DEFAULT_SIGN_IN
+             */
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+
+            /** Build a GoogleAPIclient with access to the Google Sign-In API and the options specified by gso. */
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this /* Fragment Activity */, new GoogleApiClient.OnConnectionFailedListener() {
+                        @Override //This is a Listener for a Failed Connection.
+                        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                            Toast.makeText(mainScreen.this, "Something Went Wrong", Toast.LENGTH_SHORT).show(); // This displays a toast on Connection Failed that reads "Something Went Wrong"
+                        }
+                    })
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
 
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String email = stripEmail(currentUser.getEmail());
-                for(DataSnapshot ds : dataSnapshot.getChildren()){
-                    user = ds.child(email).getValue(User.class);
-                    updateViews();
+
+
+            /** On Logout Click Initialisation and  Listener */
+            mAuth = FirebaseAuth.getInstance();
+            logoutButton = (Button) findViewById(R.id.logoutButton);
+            logoutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    signOut(); // Signs out, redirects to log in screen
+                }
+            });
+
+            currentUser = mAuth.getCurrentUser();
+
+            firebaseDatabase = FirebaseDatabase.getInstance();
+            databaseReference = firebaseDatabase.getReference();
+
+
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    String email = stripEmail(currentUser.getEmail());
+                    for(DataSnapshot ds : dataSnapshot.getChildren()){
+                        user = ds.child(email).getValue(User.class);
+                        updateViews();
+
+                    }
+                    if(user==null){
+                        user = createUser(currentUser);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
-                if(user==null){
-                    user = createUser(currentUser);
-                }
-            }
+            });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+        }
 
-            }
-        });
+
+
+
         if(this.user==null){
             this.user = createUser(currentUser);
         }
@@ -346,11 +360,48 @@ public class mainScreen extends AppCompatActivity {
     public String stripEmail(String email) {
         return email.replaceAll("[.#$]", "");
     }
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+
+
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
 
         outState.putParcelable("User", this.user);
+        outState.putBoolean("Online", this.online);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable("User", this.user);
+        outState.putBoolean("Online", this.online);
+
+
+    }
+
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState!=null) {
+            this.user = savedInstanceState.getParcelable("User");
+
+            if (savedInstanceState.containsKey("Online")) {
+                this.online = savedInstanceState.getBoolean("Online", true);
+
+            }
+        }else{
+
+        }
     }
 
     @Override
@@ -394,7 +445,6 @@ public class mainScreen extends AppCompatActivity {
                 ActivityDay activityDay = data.getParcelableExtra("ActivityDays");
                 if(activityDay!=null){
                     this.user.addActivityDay(activityDay);
-                    Log.e("aa" , Double.toString(activityDay.getTotaldistance()));
                     updateUser(user);
 
 
@@ -426,36 +476,42 @@ public class mainScreen extends AppCompatActivity {
 
     /** SignOut Method */
     private void signOut() {
-        // Firebase sign out
-        mAuth.signOut();
+        if(online){
+            mAuth.signOut();
 
-        // Google sign out
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        //redirect back to log in screen.
-                        startActivity(new Intent(mainScreen.this, login.class));
-                    }
-                });
+            // Google sign out
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(@NonNull Status status) {
+                            //redirect back to log in screen.
+                            startActivity(new Intent(mainScreen.this, login.class));
+                        }
+                    });
+        }else{
+            startActivity(new Intent(mainScreen.this, login.class));
+
+        }
+
     }
 
     private User createUser(FirebaseUser fbUser){
-        User user = new User(fbUser.getEmail());
-        return user;
+        if(fbUser==null){
+            return new User();
+        }else{
+            return new User(fbUser.getEmail());
+        }
+
 
     }
 
     private void updateUser(User user){
-        databaseReference.child("users").child(user.getEmail()).setValue(user);
+        if(online){
+            databaseReference.child("users").child(user.getEmail()).setValue(user);
+        }
 
 
     }
 
-    private User readUser(){
-
-
-        return null;
-    }
 
 }

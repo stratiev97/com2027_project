@@ -42,6 +42,7 @@ import java.util.List;
 public class overviewScreen extends AppCompatActivity{
     final int GALLERY_CODE = 11;
 
+
     private ArrayList<WeightDay> weightDays;
     private ArrayList<CalorieDay> calorieDays;
     private ArrayList<ActivityDay> activityDays;
@@ -118,7 +119,7 @@ public class overviewScreen extends AppCompatActivity{
             chart.getLegend().setEnabled(false);
             chart.setAutoScaleMinMaxEnabled(true);
             chart.getDescription().setEnabled(false);
-            chart.animateY(1000, Easing.EasingOption.EaseOutQuad);
+            chart.animateY(3000, Easing.EasingOption.EaseOutQuad);
         }
 
 
@@ -153,7 +154,7 @@ public class overviewScreen extends AppCompatActivity{
             chart.getLegend().setEnabled(false);
             chart.setAutoScaleMinMaxEnabled(true);
             chart.getDescription().setEnabled(false);
-            chart.animateY(1000, Easing.EasingOption.EaseOutQuad);
+            chart.animateY(3000, Easing.EasingOption.EaseOutQuad);
         }
 
 
@@ -209,7 +210,7 @@ public class overviewScreen extends AppCompatActivity{
             chart.getLegend().setEnabled(false);
             chart.setAutoScaleMinMaxEnabled(true);
             chart.getDescription().setEnabled(false);
-            chart.animateY(1000, Easing.EasingOption.EaseOutQuad);
+            chart.animateY(3000, Easing.EasingOption.EaseOutQuad);
         }
 
 

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class login extends AppCompatActivity {
     /** Fields */
 
     SignInButton signInButton; // This is the Google Sign in Button
+    Button guestButton;
     FirebaseAuth mAuth; // This is the Firebase Authorisation File
     private static final int RC_SIGN_IN = 2; // This is the Sign In request Sign In Code
     GoogleApiClient mGoogleApiClient; // This is the Google API Client
@@ -54,6 +56,17 @@ public class login extends AppCompatActivity {
         actionBar.hide();
         //Set Content View
         setContentView(R.layout.activity_login);
+
+        guestButton = (Button) findViewById(R.id.guest_signin);
+        guestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent guestLogin = new Intent(login.this, mainScreen.class);
+                guestLogin.putExtra("Online", false);
+                startActivity(guestLogin); //MainScreen Activity Starts
+
+            }
+        });
 
         /** Initialise Google Sign Button */
         signInButton = (SignInButton) findViewById(R.id.google_login_button);  // Maps signInButton to the Physical Button on the Layout

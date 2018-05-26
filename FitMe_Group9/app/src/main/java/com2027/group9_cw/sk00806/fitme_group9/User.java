@@ -40,7 +40,6 @@ public class User implements Parcelable{
 
 
     public User(String email){
-        this.points = 0;
         this.email = email;
         targetWeight=0;
         this.breakfastCalorieGoal=0;
@@ -57,7 +56,6 @@ public class User implements Parcelable{
 
     }
     public User(){
-        this.points = 0;
         this.email = "";
         targetWeight=0;
         this.breakfastCalorieGoal=0;
@@ -77,7 +75,6 @@ public class User implements Parcelable{
 
 
     protected User(Parcel in) {
-        points = in.readInt();
         email = in.readString();
         breakfastCalorieGoal = in.readInt();
         lunchCalorieGoal = in.readInt();
@@ -326,7 +323,6 @@ public class User implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.points);
         dest.writeString(this.email);
         dest.writeInt(this.breakfastCalorieGoal);
         dest.writeInt(this.lunchCalorieGoal);
