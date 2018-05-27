@@ -27,6 +27,7 @@
                 android:textColor="@color/colorWhite"
                 android:text="Distance Travelled(km) Per Day"
                 android:layout_height="wrap_content" />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/distanceChart"
                 android:layout_width="match_parent"
@@ -51,6 +52,38 @@
                 android:id="@+id/weightChart"
                 android:layout_width="match_parent"
                 android:layout_height="150dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/colorWhite"
+                android:text="Average User Weight Lost: "
+                android:id="@+id/overview_avgweightlost"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/colorWhite"
+                android:text="Your Total Weight Lost: "
+                android:id="@+id/overview_weightlost"
+
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/overview_avgdisttravelled"
+                android:textColor="@color/colorWhite"
+                android:text="Average User Distance Travelled Per Day: "
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/colorWhite"
+                android:id="@+id/overview_disttravelled"
+                android:text="Your Average Distance Travelled Per Day: "
+                android:layout_height="wrap_content" />
+
 
         </LinearLayout>
 

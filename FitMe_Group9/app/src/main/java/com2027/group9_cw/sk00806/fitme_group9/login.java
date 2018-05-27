@@ -3,9 +3,11 @@ package com2027.group9_cw.sk00806.fitme_group9;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -56,7 +58,13 @@ public class login extends AppCompatActivity {
         actionBar.hide();
         //Set Content View
         setContentView(R.layout.activity_login);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("We've updated our Privacy Policy")
+                .setMessage("Sensitive data such as your name and age will not be stored anywhere by this app, and will only be accessed through your Google account. Running data, Calorie data and Weight data will be stored anonymously in our servers.")
+                .setPositiveButton("Got it", null) //null denotes an onClickListener -- Could be used to never ask again
+                .create();
 
+        dialog.show();
         guestButton = (ImageButton) findViewById(R.id.guest_signin);
         guestButton.setOnTouchListener(new View.OnTouchListener() {
             @Override

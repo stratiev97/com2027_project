@@ -9,8 +9,11 @@ import android.os.PersistableBundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -54,13 +57,12 @@ public class mainScreen extends AppCompatActivity {
     TextView distanceTravelled;
     TextView avgDailyCalories;
     TextView weightLost;
-    Button dummyData;
     User user;
-    Button resetData;
-    Button logoutButton;
     FirebaseAuth mAuth;
     ImageButton progressButton;
     GoogleApiClient mGoogleApiClient;
+    private double avgDistanceTravelled = 0;
+    private double avgWeightLost = 0;
     private boolean online;
 
     private FirebaseDatabase firebaseDatabase;
@@ -79,7 +81,8 @@ public class mainScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //This hides the Title Bar
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+
+        actionBar.setTitle("FitMe");
         //Set Content View
         setContentView(R.layout.mainscreen);
 
@@ -96,9 +99,9 @@ public class mainScreen extends AppCompatActivity {
         avgDailyCalories = (TextView) findViewById(R.id.mainscreen_avgdailycalories);
         weightLost = (TextView) findViewById(R.id.mainscreen_totalweightlost);
         currentWeight = (TextView) findViewById(R.id.mainscreen_currentweight);
-        dummyData = (Button) findViewById(R.id.mainscreen_dummydata);
-        resetData = (Button) findViewById(R.id.mainscreen_reset);
         Intent intent = getIntent();
+
+
         online = intent.getBooleanExtra("Online", true);
 
         if(online){
@@ -207,6 +210,12 @@ public class mainScreen extends AppCompatActivity {
                     overviewIntent.putParcelableArrayListExtra("WeightDays", user.getWeightDays());
                     overviewIntent.putParcelableArrayListExtra("CalorieDays", user.getCalorieDays());
                     overviewIntent.putParcelableArrayListExtra("ActivityDays", user.getActivityDays());
+                    overviewIntent.putExtra("avgweightlost",avgWeightLost);
+                    overviewIntent.putExtra("avgdisttravelled",avgDistanceTravelled);
+                    overviewIntent.putExtra("weightlost",user.getWeightLost());
+                    overviewIntent.putExtra("disttravelled",user.getAvgDistanceTravelled());
+
+
                     startActivityForResult(overviewIntent, OVERVIEW_CODE);
 
 
@@ -225,11 +234,11 @@ public class mainScreen extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN){      // If progress pictures Button is pressed
-                    progressButton.setImageResource(R.drawable.button_progress_pressed);   // Image Resource is set to 'button_progress_pressed'
+                    progressButton.setImageResource(R.drawable.button_progress);   // Image Resource is set to 'button_progress_pressed'
                     return true;
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {        // If progress pictures button is released
-                    progressButton.setImageResource(R.drawable.button_progress);           // Image Resource is set to 'button_progress'
+                    progressButton.setImageResource(R.drawable.button_progress_pressed);           // Image Resource is set to 'button_progress'
                     Intent overviewIntent = new Intent(mainScreen.this, progresspicScreen.class);
                     overviewIntent.putParcelableArrayListExtra("Pictures", user.getImages());
                     startActivityForResult(overviewIntent, PICTURES_CODE);
@@ -240,9 +249,99 @@ public class mainScreen extends AppCompatActivity {
             }
         });
 
-        dummyData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+
+
+        if(online){
+
+            /** Configure sign-in to request the user's ID, email address and basic profile.
+             *  ID and basic profile are included in DEFAULT_SIGN_IN
+             */
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+
+            /** Build a GoogleAPIclient with access to the Google Sign-In API and the options specified by gso. */
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this /* Fragment Activity */, new GoogleApiClient.OnConnectionFailedListener() {
+                        @Override //This is a Listener for a Failed Connection.
+                        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                            Toast.makeText(mainScreen.this, "Something Went Wrong", Toast.LENGTH_SHORT).show(); // This displays a toast on Connection Failed that reads "Something Went Wrong"
+                        }
+                    })
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+
+
+
+
+
+            /** On Logout Click Initialisation and  Listener */
+            mAuth = FirebaseAuth.getInstance();
+
+            currentUser = mAuth.getCurrentUser();
+
+            firebaseDatabase = FirebaseDatabase.getInstance();
+            databaseReference = firebaseDatabase.getReference();
+
+
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.child("avgweightlost").getValue()!=null){
+                        avgWeightLost = (double) dataSnapshot.child("avgweightlost").getValue();
+
+                    }
+                    if(dataSnapshot.child("avgdistancetravelled").getValue()!=null){
+                        avgDistanceTravelled = (double) dataSnapshot.child("avgdistancetravelled").getValue();
+
+                    }
+
+                    String email = stripEmail(currentUser.getEmail());
+                    for(DataSnapshot ds : dataSnapshot.getChildren()){
+                        user = ds.child(email).getValue(User.class);
+                        updateViews();
+
+                    }
+                    if(user==null){
+                        user = createUser(currentUser);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+
+
+
+
+        if(this.user==null){
+            this.user = createUser(currentUser);
+        }
+        updateViews();
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                signOut();
+                return true;
+
+            case R.id.gendummy:
                 user.addWeightDay(new WeightDay(80,"20180515"));
                 user.addWeightDay(new WeightDay(77.8,"20180516"));
                 user.addWeightDay(new WeightDay(77.6,"20180517"));
@@ -275,96 +374,17 @@ public class mainScreen extends AppCompatActivity {
 
                 updateUser(user);
                 updateViews();
-
-            }
-        });
-
-
-        resetData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                return true;
+            case R.id.resetuser:
                 user = createUser(currentUser);
                 updateUser(user);
+
                 updateViews();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
 
-            }
-        });
-
-
-
-        if(online){
-
-            /** Configure sign-in to request the user's ID, email address and basic profile.
-             *  ID and basic profile are included in DEFAULT_SIGN_IN
-             */
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.default_web_client_id))
-                    .requestEmail()
-                    .build();
-
-            /** Build a GoogleAPIclient with access to the Google Sign-In API and the options specified by gso. */
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .enableAutoManage(this /* Fragment Activity */, new GoogleApiClient.OnConnectionFailedListener() {
-                        @Override //This is a Listener for a Failed Connection.
-                        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                            Toast.makeText(mainScreen.this, "Something Went Wrong", Toast.LENGTH_SHORT).show(); // This displays a toast on Connection Failed that reads "Something Went Wrong"
-                        }
-                    })
-                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                    .build();
-
-
-
-
-
-            /** On Logout Click Initialisation and  Listener */
-            mAuth = FirebaseAuth.getInstance();
-            logoutButton = (Button) findViewById(R.id.logoutButton);
-            logoutButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    signOut(); // Signs out, redirects to log in screen
-                }
-            });
-
-            currentUser = mAuth.getCurrentUser();
-
-            firebaseDatabase = FirebaseDatabase.getInstance();
-            databaseReference = firebaseDatabase.getReference();
-
-
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    String email = stripEmail(currentUser.getEmail());
-                    for(DataSnapshot ds : dataSnapshot.getChildren()){
-                        user = ds.child(email).getValue(User.class);
-                        updateViews();
-
-                    }
-                    if(user==null){
-                        user = createUser(currentUser);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }
-
-
-
-
-        if(this.user==null){
-            this.user = createUser(currentUser);
-        }
-        updateViews();
-
-    }
+        }    }
 
     public String stripEmail(String email) {
         return email.replaceAll("[.#$]", "");

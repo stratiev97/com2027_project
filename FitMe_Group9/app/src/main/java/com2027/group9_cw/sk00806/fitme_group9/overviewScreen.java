@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
@@ -46,6 +47,10 @@ public class overviewScreen extends AppCompatActivity{
     private ArrayList<WeightDay> weightDays;
     private ArrayList<CalorieDay> calorieDays;
     private ArrayList<ActivityDay> activityDays;
+    private TextView avgweightlost;
+    private TextView weightlost;
+    private TextView avgdisttravelled;
+    private TextView disttravelled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +59,26 @@ public class overviewScreen extends AppCompatActivity{
         actionBar.hide();
         setContentView(R.layout.overviewscreen);
         Intent intent = getIntent();
+
         this.calorieDays = intent.getParcelableArrayListExtra("CalorieDays");
         this.weightDays = intent.getParcelableArrayListExtra("WeightDays");
         this.activityDays = intent.getParcelableArrayListExtra("ActivityDays");
+
+        NumberFormat formatter = new DecimalFormat("#0.0");
+        avgweightlost = (TextView)findViewById(R.id.overview_avgweightlost);
+        weightlost = (TextView)findViewById(R.id.overview_weightlost);
+        avgdisttravelled = (TextView)findViewById(R.id.overview_avgdisttravelled);
+        disttravelled = (TextView)findViewById(R.id.overview_disttravelled);
+        double avw = intent.getDoubleExtra("avgweightlost", 0);
+        double w = intent.getDoubleExtra("weightlost", 0);
+        double avd = intent.getDoubleExtra("avgdisttravelled", 0);
+        double d = intent.getDoubleExtra("disttravelled", 0);
+        avgweightlost.setText("User Average Weight Lost: " + formatter.format(avw) + "kg");
+        weightlost.setText("Your Weight Lost: " + formatter.format(w) + "kg");
+        avgdisttravelled.setText("User Averarage Distance Travelled Per Day: " + formatter.format(avd) + "km");
+        disttravelled.setText("Your Averarage Distance Travelled Per Day: " + formatter.format(d) + "km");
+
+
         if(this.calorieDays==null){
             this.calorieDays = new ArrayList<>();
         }
