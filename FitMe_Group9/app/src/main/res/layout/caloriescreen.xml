@@ -1,306 +1,324 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+
     android:background="@drawable/background">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/titleCalories"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"
+                android:textSize="45sp"
+                android:layout_gravity="center"
+                android:id="@+id/calorieScreen_title"
+                />
+
+            <!-- Goal title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/titleCalorieGoal"
+                android:textColor="@color/colorWhite"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_gravity="left"
+
+                android:id="@+id/calorieScreen_dailyGoalLabel"
+                />
+
+            <!-- Add Progress Bar Code Here -->
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="15dp"
+                android:id="@+id/calorieScreen_progressBar"
+                style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+                />
+
+            <!-- Summary title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/titleCalorieSummary"
+                android:textColor="@color/colorWhite"
+                android:textSize="25sp"
+                android:id="@+id/calorieScreen_soFarTodayLabel"
+                android:textStyle="bold"
+                android:layout_gravity="left"
+                />
+
+            <!-- Breakfast -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/titleBreakfast"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:layout_gravity="left"
+                android:id="@+id/calorieScreen_breakfastLabel"
+                />
+
+            <!-- Add List Code Here -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17sp"
+                    android:layout_weight="5"
+                    android:textStyle="italic"
+                    android:id="@+id/calorieScreen_breakfastGoalLabel"
+                    android:text="Goal:"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="italic"
+                    android:textSize="17sp"
+                    android:layout_weight="5"
+                    android:id="@+id/calorieScreen_breakfastCurrentLabel"
+
+                    android:text="Current:"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:id="@+id/calorieScreen_breakfastResetButton"
+                    android:layout_weight="1"
+                    android:text="Reset"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:id="@+id/calorieScreen_breakfastAddButton"
+                    android:layout_weight="1"
+                    android:text="Add Entry"/>
+            </LinearLayout>
+
+            <!-- Title Lunch -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/titleLunch"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:id="@+id/calorieScreen_lunchLabel"
+                android:layout_gravity="left"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17sp"
+                    android:layout_weight="5"
+                    android:id="@+id/calorieScreen_lunchGoalLabel"
+                    android:textStyle="italic"
+                    android:text="Goal:"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:id="@+id/calorieScreen_lunchCurrentLabel"
+
+                    android:textStyle="italic"
+                    android:layout_weight="5"
+                    android:textSize="17sp"
+                    android:text="Current:"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:id="@+id/calorieScreen_lunchResetButton"
+
+                    android:layout_weight="1"
+                    android:text="Reset"/>
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:id="@+id/calorieScreen_lunchAddButton"
+
+                    android:layout_weight="1"
+                    android:text="Add Entry"/>
+            </LinearLayout>
+
+            <!-- Dinner -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/titleDinner"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:id="@+id/calorieScreen_dinnerLabel"
+
+                android:layout_gravity="left"
+                />
+
+            <!-- Add List Code Here -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17sp"
+                    android:textStyle="italic"
+                    android:id="@+id/calorieScreen_dinnerGoalLabel"
+
+                    android:layout_weight="5"
+                    android:text="Goal:"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:id="@+id/calorieScreen_dinnerCurrentLabel"
+
+                    android:layout_weight="5"
+                    android:textStyle="italic"
+                    android:textSize="17sp"
+                    android:text="Current:"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:id="@+id/calorieScreen_dinnerResetButton"
+
+                    android:layout_weight="1"
+                    android:text="Reset"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:id="@+id/calorieScreen_dinnerAddButton"
+
+                    android:layout_weight="1"
+                    android:text="Add Entry"/>
+            </LinearLayout>
+
+            <!-- Snacks -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/titleSnacks"
+                android:id="@+id/calorieScreen_snackLabel"
+
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:layout_gravity="left"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17sp"
+                    android:layout_weight="5"
+                    android:id="@+id/calorieScreen_snackGoalLabel"
+
+                    android:textStyle="italic"
+                    android:text="Goal:"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="italic"
+                    android:layout_weight="5"
+                    android:textSize="17sp"
+                    android:id="@+id/calorieScreen_snackCurrentLabel"
+
+                    android:text="Current:"/>
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:layout_weight="1"
+                    android:id="@+id/calorieScreen_snackResetButton"
+
+                    android:text="Reset"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:layout_weight="1"
+                    android:id="@+id/calorieScreen_snackAddButton"
+
+                    android:text="Add Entry"/>
+
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:id="@+id/calorieScreen_calorieGoalButton"
+
+                android:text="Change Daily Calorie Goals"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <!-- Title Calories -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titleCalories"
-        android:textStyle="bold"
-        android:textColor="@color/colorWhite"
-        android:textSize="45sp"
-        android:layout_gravity="center"
-        android:id="@+id/calorieScreen_title"
-        />
 
-    <!-- Goal title -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titleCalorieGoal"
-        android:textColor="@color/colorWhite"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_gravity="left"
-
-        android:id="@+id/calorieScreen_dailyGoalLabel"
-        />
-
-    <!-- Add Progress Bar Code Here -->
-    <ProgressBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="15dp"
-        android:id="@+id/calorieScreen_progressBar"
-        style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
-        />
-
-    <!-- Summary title -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titleCalorieSummary"
-        android:textColor="@color/colorWhite"
-        android:textSize="25sp"
-        android:id="@+id/calorieScreen_soFarTodayLabel"
-        android:textStyle="bold"
-        android:layout_gravity="left"
-        />
-
-    <!-- Breakfast -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titleBreakfast"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        android:layout_gravity="left"
-        android:id="@+id/calorieScreen_breakfastLabel"
-        />
-
-    <!-- Add List Code Here -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:textSize="17sp"
-            android:layout_weight="5"
-            android:textStyle="italic"
-            android:id="@+id/calorieScreen_breakfastGoalLabel"
-            android:text="Goal:"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:textStyle="italic"
-            android:textSize="17sp"
-            android:layout_weight="5"
-            android:id="@+id/calorieScreen_breakfastCurrentLabel"
-
-            android:text="Current:"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:id="@+id/calorieScreen_breakfastResetButton"
-            android:layout_weight="1"
-            android:text="Reset"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:id="@+id/calorieScreen_breakfastAddButton"
-            android:layout_weight="1"
-            android:text="Add Entry"/>
-    </LinearLayout>
-
-    <!-- Title Lunch -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titleLunch"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        android:id="@+id/calorieScreen_lunchLabel"
-        android:layout_gravity="left"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:textSize="17sp"
-            android:layout_weight="5"
-            android:id="@+id/calorieScreen_lunchGoalLabel"
-            android:textStyle="italic"
-            android:text="Goal:"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:id="@+id/calorieScreen_lunchCurrentLabel"
-
-            android:textStyle="italic"
-            android:layout_weight="5"
-            android:textSize="17sp"
-            android:text="Current:"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:id="@+id/calorieScreen_lunchResetButton"
-
-            android:layout_weight="1"
-            android:text="Reset"/>
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:id="@+id/calorieScreen_lunchAddButton"
-
-            android:layout_weight="1"
-            android:text="Add Entry"/>
-    </LinearLayout>
-
-    <!-- Dinner -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titleDinner"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        android:id="@+id/calorieScreen_dinnerLabel"
-
-        android:layout_gravity="left"
-        />
-
-    <!-- Add List Code Here -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:textSize="17sp"
-            android:textStyle="italic"
-            android:id="@+id/calorieScreen_dinnerGoalLabel"
-
-            android:layout_weight="5"
-            android:text="Goal:"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:id="@+id/calorieScreen_dinnerCurrentLabel"
-
-            android:layout_weight="5"
-            android:textStyle="italic"
-            android:textSize="17sp"
-            android:text="Current:"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:id="@+id/calorieScreen_dinnerResetButton"
-
-            android:layout_weight="1"
-            android:text="Reset"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:id="@+id/calorieScreen_dinnerAddButton"
-
-            android:layout_weight="1"
-            android:text="Add Entry"/>
-    </LinearLayout>
-
-    <!-- Snacks -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titleSnacks"
-        android:id="@+id/calorieScreen_snackLabel"
-
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        android:layout_gravity="left"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:textSize="17sp"
-            android:layout_weight="5"
-            android:id="@+id/calorieScreen_snackGoalLabel"
-
-            android:textStyle="italic"
-            android:text="Goal:"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:textStyle="italic"
-            android:layout_weight="5"
-            android:textSize="17sp"
-            android:id="@+id/calorieScreen_snackCurrentLabel"
-
-            android:text="Current:"/>
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAllCaps="false"
-                android:layout_weight="1"
-                android:id="@+id/calorieScreen_snackResetButton"
-
-                android:text="Reset"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAllCaps="false"
-                android:layout_weight="1"
-                android:id="@+id/calorieScreen_snackAddButton"
-
-                android:text="Add Entry"/>
-
-
-    </LinearLayout>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:id="@+id/calorieScreen_calorieGoalButton"
-
-        android:text="Change Daily Calorie Goals"/>
 
 </LinearLayout>
