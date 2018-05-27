@@ -22,8 +22,9 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <Button
-        android:text="Take Picture"
+    <ImageButton
+        android:src="@drawable/take_picture"
+        android:background="@color/invisible"
         android:id="@+id/progress_pictures_takepic"
         android:layout_width="wrap_content"
         android:layout_weight="0.5"

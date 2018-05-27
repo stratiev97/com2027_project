@@ -59,7 +59,7 @@ public class mainScreen extends AppCompatActivity {
     Button resetData;
     Button logoutButton;
     FirebaseAuth mAuth;
-    Button progressButton;
+    ImageButton progressButton;
     GoogleApiClient mGoogleApiClient;
     private boolean online;
 
@@ -89,7 +89,7 @@ public class mainScreen extends AppCompatActivity {
         weightButton = (ImageButton) findViewById(R.id.weight_button);
         activityButton = (ImageButton) findViewById(R.id.activity_button);
         overviewButton = (ImageButton) findViewById(R.id.overview_button);
-        progressButton = (Button) findViewById(R.id.progress_pictures_button);
+        progressButton = (ImageButton) findViewById(R.id.progress_pictures_button);
 
         targetWeight = (TextView) findViewById(R.id.mainscreen_targetweight);
         distanceTravelled = (TextView) findViewById(R.id.mainscreen_distancetravelled);
@@ -221,12 +221,21 @@ public class mainScreen extends AppCompatActivity {
             }
         });
 
-        progressButton.setOnClickListener(new View.OnClickListener() {
+        progressButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Intent overviewIntent = new Intent(mainScreen.this, progresspicScreen.class);
-                overviewIntent.putParcelableArrayListExtra("Pictures", user.getImages());
-                startActivityForResult(overviewIntent, PICTURES_CODE);
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN){      // If progress pictures Button is pressed
+                    progressButton.setImageResource(R.drawable.button_progress_pressed);   // Image Resource is set to 'button_progress_pressed'
+                    return true;
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {        // If progress pictures button is released
+                    progressButton.setImageResource(R.drawable.button_progress);           // Image Resource is set to 'button_progress'
+                    Intent overviewIntent = new Intent(mainScreen.this, progresspicScreen.class);
+                    overviewIntent.putParcelableArrayListExtra("Pictures", user.getImages());
+                    startActivityForResult(overviewIntent, PICTURES_CODE);
+                    return true;
+                }
+                return false;
 
             }
         });

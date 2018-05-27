@@ -35,7 +35,7 @@ public class login extends AppCompatActivity {
     /** Fields */
 
     SignInButton signInButton; // This is the Google Sign in Button
-    Button guestButton;
+    ImageButton guestButton;
     FirebaseAuth mAuth; // This is the Firebase Authorisation File
     private static final int RC_SIGN_IN = 2; // This is the Sign In request Sign In Code
     GoogleApiClient mGoogleApiClient; // This is the Google API Client
@@ -57,15 +57,25 @@ public class login extends AppCompatActivity {
         //Set Content View
         setContentView(R.layout.activity_login);
 
-        guestButton = (Button) findViewById(R.id.guest_signin);
-        guestButton.setOnClickListener(new View.OnClickListener() {
+        guestButton = (ImageButton) findViewById(R.id.guest_signin);
+        guestButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Intent guestLogin = new Intent(login.this, mainScreen.class);
-                guestLogin.putExtra("Online", false);
-                startActivity(guestLogin); //MainScreen Activity Starts
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN){      // If Guest Button is pressed
+                    guestButton.setImageResource(R.drawable.guest_button_pressed);   // Image Resource is set to 'guest_button_pressed'
+                    return true;
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {        // If Guest button is released
+                    guestButton.setImageResource(R.drawable.guest_button);           // Image Resource is set to 'guest_button'
+                    Intent guestLogin = new Intent(login.this, mainScreen.class);
+                    guestLogin.putExtra("Online", false);
+                    startActivity(guestLogin); //MainScreen Activity Starts
+                    return true;
+                }
 
+                return false;
             }
+
         });
 
         /** Initialise Google Sign Button */

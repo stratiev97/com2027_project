@@ -9,13 +9,16 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import java.io.File;
 import android.provider.MediaStore;
@@ -44,7 +47,7 @@ public class progresspicScreen extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    Button takepic;
+    ImageButton takepic;
     Context context;
     String mCurrentPhotoPath;
     Button buto;
@@ -53,6 +56,10 @@ public class progresspicScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progresspic_screen);
+
+        //This hides the Title Bar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         Intent intent = getIntent();
         this.pictures = intent.getParcelableArrayListExtra("Pictures");
@@ -88,29 +95,41 @@ public class progresspicScreen extends AppCompatActivity {
 
         }
 
-        takepic = (Button)findViewById(R.id.progress_pictures_takepic);
-        takepic.setOnClickListener(new View.OnClickListener() {
+        takepic = (ImageButton)findViewById(R.id.progress_pictures_takepic);
+        takepic.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
 
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                // Ensure that there's a camera activity to handle the intent
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    // Create the File where the photo should go
-                    File photoFile = null;
-                    try {
-                        photoFile = createImageFile();
-                    } catch (IOException ex) {
-                    }
-                    // Continue only if the File was successfully created
-                    if (photoFile != null) {
-                        fileUri = FileProvider.getUriForFile(context,
-                                "com.example.android.fileprovider",
-                                photoFile);
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-                        startActivityForResult(takePictureIntent, TAKE_PICTURE_CODE);
-                    }
+                if (event.getAction() == MotionEvent.ACTION_DOWN){      // If take pic Button is pressed
+                    takepic.setImageResource(R.drawable.take_picture_pressed);   // Image Resource is set to 'take_picture_pressed'
+                    return true;
                 }
+
+                if (event.getAction() == MotionEvent.ACTION_UP) {        // If take pic button is released
+                    takepic.setImageResource(R.drawable.take_picture);           // Image Resource is set to 'take_picture'
+
+
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    // Ensure that there's a camera activity to handle the intent
+                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                        // Create the File where the photo should go
+                        File photoFile = null;
+                        try {
+                            photoFile = createImageFile();
+                        } catch (IOException ex) {
+                        }
+                        // Continue only if the File was successfully created
+                        if (photoFile != null) {
+                            fileUri = FileProvider.getUriForFile(context,
+                                    "com.example.android.fileprovider",
+                                    photoFile);
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+                            startActivityForResult(takePictureIntent, TAKE_PICTURE_CODE);
+                        }
+                    }
+                    return true;
+                }
+                return false;
 
             }
         });
